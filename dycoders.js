@@ -2008,17 +2008,22 @@ case 'bocchi': {
     }
     }
     break
-    case 'ai': {
+    
+case 'ai': {
     if (!text) return m.reply(`Masukkan query yang benar\nContoh: ${prefix}${command} selamat pagi`);
 
     try {
-        let prompt = "nama kamu adalah dycoders"; //Ubah Sendiri Sesukamu
-        let veiku = await fetch(`https://api.nyxs.pw/ai/character-ai?prompt=${text}&gaya=${prompt}`);
-        let output = await veiku.json();
-        await m.reply(output.result);  // Balas hasil dari AI
+        let response = await fetch(`https://restapii.rioooxdzz.web.id/api/openai?message=${encodeURIComponent(text)}`);
+        let result = await response.json();
+
+        if (result.status === 200) {
+            await m.reply(result.data.response);
+        } else {
+            m.reply("Terjadi kesalahan saat mengambil hasil dari AI. Silakan coba lagi nanti.");
+        }
     } catch (e) {
         console.error(e);
-        return m.reply("Terjadi kesalahan saat mengambil hasil dari AI.");
+        return m.reply("Terjadi kesalahan saat memproses permintaan. Pastikan server API aktif.");
     }
 }
 break;
