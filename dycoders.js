@@ -5027,7 +5027,7 @@ break
 
 case 'askgpt': {
     if (!text) return m.reply("Silakan masukkan pertanyaan untuk ChatGPT!");
-U
+
     try {
         const response = await fetch(`https://devolution-cyan.vercel.app/ai/chatgpt?text=${encodeURIComponent(text)}`);
         const result = await response.json();
