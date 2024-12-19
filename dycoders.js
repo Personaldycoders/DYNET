@@ -1521,6 +1521,7 @@ ${woidy}suit
 
 *Ai Menu*
 ${woidy}askgpt [teks]
+${woidy}ai [teks]
 
 *Store Menu*
 ${woidy}done
@@ -1779,6 +1780,7 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 
 *menu ai*
 ${woidy}askgpt [text]
+${woidy}ai [text]
 `)
 } if (args[0] === "store") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
