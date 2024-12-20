@@ -60,18 +60,11 @@ const body = (
   ''
 );
 const isCreator = [dy.decodeJid(dy.user.id), ...global.rowner.map(([number]) => number), ].map((v) => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender);
+let prefix = '.';
 
-let prefix;
-let commandnya;
-
-if (isCreator || global.db.data.users[m.sender].premium) {
-  prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body) ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi) : '';
-  commandnya = body.startsWith(prefix) ? body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase() : '';
-} else {
-  prefix = /^[#!.,®©¥€¢£/\∆✓]/.test(body) ? body.match(/^[#!.,®©¥€¢£/\∆✓]/gi) : '#';
-  commandnya = body.startsWith(prefix) ? body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase() : '';
-}
-
+let commandnya = body.startsWith(prefix) 
+    ? body.slice(1).trim().split(/ +/).shift().toLowerCase() 
+    : '';
 //Database 
 const pendaftar = JSON.parse(fs.readFileSync('./lib/database/pendaftar.json'))
 let limitnya = db.data.users[m?.sender].limit
@@ -1431,6 +1424,8 @@ ${woidy}setbotname
 ${woidy}kirimmediachn [kirimedia to channel]
 ${woidy}kirimpesanch [kirimpesan to channel]
 ${woidy}cekidchannel [gunakan commanad ini di ch]
+${woidy}deposit [amount]
+${woidy}cektrx
 
 *Main Menu*
 ${woidy}redeem 
@@ -1528,6 +1523,7 @@ ${woidy}suit
 *Ai Menu*
 ${woidy}askgpt [teks]
 ${woidy}ai [teks]
+${woidy}opengpt [teks]
 
 *Store Menu*
 ${woidy}done
@@ -1606,6 +1602,8 @@ ${woidy}setbotname
 ${woidy}kirimmediachn [kirimedia to channel]
 ${woidy}kirimpesanch [kirimpesan to channel]
 ${woidy}cekidchannel [gunakan commanad ini di ch]
+${woidy}deposit [amount]
+${woidy}cektrx
 
 `)
 } if (args[0] === "main") {
@@ -1794,6 +1792,7 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 *menu ai*
 ${woidy}askgpt [text]
 ${woidy}ai [text]
+${woidy}opengpt [text]
 `)
 } if (args[0] === "store") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
@@ -3811,6 +3810,84 @@ case 'tomp4': case 'tovideo': case 'tovid': {
     })
     }
     break
+case 'deposit': {
+if (!isCreator) return m.reply(mess.owner); 
+    const { createCanvas, loadImage } = require('canvas');
+    const fs = require('fs');
+    const fetch = require('node-fetch');
+
+    const amount = parseInt(text);
+
+    if (isNaN(amount) || amount <= 0) {
+        return m.reply("⚠️ Masukkan jumlah yang valid untuk deposit.");
+    }
+
+    const qrisApiUrl = `https://skizoasia.xyz/api/qris-converter?apikey=${global.skizo}&url=${global.qris}&amount=${amount}&hasService=false&serviceMode=p&serviceAmount=0`;
+
+    try {
+       
+        const response = await fetch(qrisApiUrl);
+        if (!response.ok) throw new Error('⚠️ Gagal mengunduh gambar QRIS.');
+        const qrImageBuffer = await response.buffer();
+
+     
+        const qrImage = await loadImage(qrImageBuffer);
+
+     
+        const width = qrImage.width + 100;
+        const height = qrImage.height + 150;
+        const canvas = createCanvas(width, height);
+        const ctx = canvas.getContext('2d');
+
+  
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+
+     
+        ctx.fillStyle = '#f0f0f0';
+        ctx.fillRect(10, 10, width - 20, height - 20);
+
+      
+        const x = (width - qrImage.width) / 2;
+        const y = (height - qrImage.height) / 2;
+        ctx.drawImage(qrImage, x, y);
+
+   
+        const buffer = canvas.toBuffer('image/png');
+        const editedQrisPath = './custom-qris.png';
+        fs.writeFileSync(editedQrisPath, buffer);
+
+       
+        await dy.sendMessage(m.chat, {
+            image: { url: editedQrisPath },
+            caption: `Qr Code untuk deposit berhasil dibuat!\n\n💲jumlah: ${amount}`,
+        });
+
+      
+        fs.unlinkSync(editedQrisPath);
+    } catch (error) {
+        console.error(error);
+        return m.reply('⚠️ Terjadi kesalahan saat membuat QR code.');
+    }
+    break;
+}
+case 'cektrx': {
+  if (!isCreator) return m.reply(mess.owner); 
+  const url = `https://api.simplebot.my.id/api/orkut/cekstatus?apikey=skyzo&merchant=${global.Merchantid}&keyorkut=${global.ApiOrkut}`;
+
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
+
+    m.reply(`JSON Response:\n\n${JSON.stringify(data, null, 2)}`);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    m.reply('⚠️ Terjadi kesalahan saat memproses permintaan.');
+  }
+  break;
+}
+
+
 
 case 'brat': {
     if (!text) return m.reply('Contoh: .brat hello world');
@@ -5122,6 +5199,58 @@ reply(open)
 }
 break
 
+case 'opengpt': {
+    if (!text) return m.reply("⚠️ Masukkan prompt untuk OpenGpt!");
+
+    try {
+        
+        async function OpenGpt(prompt, id = "cm4wdogu10005ld0cssai80hp") {
+            const url = "https://open-gpt.app/api/generate";
+            const headers = {
+                "Content-Type": "application/json",
+                "User-Agent":
+                    "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36",
+                Referer: `https://open-gpt.app/id/app/${id}`,
+            };
+            const body = JSON.stringify({
+                userInput: prompt,
+                id: id,
+                userKey: "",
+            });
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: headers,
+                    body: body,
+                });
+
+                if (!response.ok) throw new Error(response.statusText);
+                return await response.text();
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                return null;
+            }
+        }
+
+      
+        const result = await OpenGpt(text);
+
+        if (result) {
+            await dy.sendMessage(m.chat, { text: result }, { quoted: fverif });
+        } else {
+            m.reply("⚠️ Terjadi kesalahan saat memproses permintaan.");
+        }
+    } catch (error) {
+        console.error("OpenGpt Error:", error);
+        m.reply(`⚠️ Terjadi kesalahan: ${error.message}`);
+    }
+
+    break;
+}
+
+
+
 case 'askgpt': {
     if (!text) return m.reply("Silakan masukkan pertanyaan untuk ChatGPT!");
 
@@ -5373,7 +5502,7 @@ case 'git': case 'gitclone': {
 case 'ceknik': {
     if (!text) return m.reply('Masukkan NIK untuk dicek!\nContoh: !ceknik 3212156608870002');
 
-    let ngeCek = `https://skizoasia.xyz/api/checknik?apikey=dycoders&nik=${text}`;
+    let ngeCek = `https://skizoasia.xyz/api/checknik?apikey=${global.skizo}&nik=${text}`;
 
     try {
       
