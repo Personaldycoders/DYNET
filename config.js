@@ -97,13 +97,23 @@ global.randomThumb = [
 global.token_do = ''
 
 
-
+//apikey
+global.skizo = "dycoders"
 //SETTINGS PANEL
 global.domain = "https://publicpanelasta.xyydycoders.xyz"
 global.apikey = "ptla_eqOwQa88wrI1ob3DdsaHlWYv6Cle4XTY9ol7kuuuuWE"
 global.capikey = "ptlc_DeUySX6VgKm5xitEbArMbdGYaybU5k5UFZQJs39tE37"
 global.eggnya = "15"
 global.locnya = "1"
+
+//DEPOSIT QRIS ORDER KOUTA SET AMOUNT
+global.qris = "https://files.catbox.moe/eariuo.jpg"
+//QRIS DI ATAS GNTI SAMA QRIS KAMU DAN UNTUK UKURAN BISA LIAT LINK NYA AGAR TAU KALAU BEDA UKURAN GK BISA WAK
+
+
+global.ApiOrkut = "260324417341448542126400OKCTxxxxxxxx"
+global.Merchantid = "OK21xxxc"
+
 
 //DATABASE 
 global.limitawal = 10
