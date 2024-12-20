@@ -124,7 +124,7 @@ const old = new Date()
 const groupMetadata = m?.isGroup ? await dy.groupMetadata(m?.chat).catch(e => {}) : {};
 //SCRAPE
 const scdl = require('soundcloud-downloader').default;
-const path = './soundcloud.mp3';
+
 const { chatAI, fetchUser } = require("./lib/scrape/scrape-ai")
 const { ytdlBaru } = require('./lib/scrape/scrape-ytdl')
 const { ytdlnew } = require('./lib/ytdlnew')
@@ -1428,6 +1428,9 @@ ${woidy}delsesi
 ${woidy}backupdb
 ${woidy}setppbot [ Send Image ]
 ${woidy}setbotname
+${woidy}kirimmediachn [kirimedia to channel]
+${woidy}kirimpesanch [kirimpesan to channel]
+${woidy}cekidchannel [gunakan commanad ini di ch]
 
 *Main Menu*
 ${woidy}redeem 
@@ -1437,7 +1440,6 @@ ${woidy}claim
 ${woidy}bulanan
 ${woidy}ping
 ${woidy}saldo
-${woidy}tqto [ Developer]
 ${woidy}owner [ Developer]
 ${woidy}transfer
 ${woidy}saving
@@ -1445,6 +1447,7 @@ ${woidy}report [ Kalo Fitur Eror ]
 
 *Download Menu*
 ${woidy}spotifydl [ Link ]
+${woidy}soundclouddl [ Link ]
 ${woidy}play [ Question ]
 ${woidy}audio [ Reply ]
 ${woidy}video [ Reply ]
@@ -1471,6 +1474,7 @@ ${woidy}hentaivid [random vidio]
 ${woidy}smeme [ Text ]
 ${woidy}sticker [ Reply Image ]
 ${woidy}qc [ Text ]
+${woidy}brat [ Text ]
 ${woidy}toimg [ Reply Sticker ]
 ${woidy}tovn [ Reply video ]
 ${woidy}tourl [ Reply Image ]
@@ -1489,6 +1493,7 @@ ${woidy}soundcloud [ query ]
 ${woidy}searchimage [ Question ]
 ${woidy}tiktoks [ Question ]
 ${woidy}spotifysearch [ Judul ]
+${woidy}soundcloudsearch [ Judul ]
 ${woidy}pin [ Question ]
 
 *Group Menu*
@@ -1499,6 +1504,7 @@ ${woidy}closetime [ Time ]
 ${woidy}promote [ Tag ]
 ${woidy}demote [ Tag ]
 ${woidy}antilinkv1 [ enable/disable ]
+${woidy}antipromosi [ enable/disable ]
 ${woidy}welcome [ on/off ]
 ${woidy}cekasalmember
 ${woidy}setppgc
@@ -1597,6 +1603,10 @@ ${woidy}delsesi
 ${woidy}backupdb
 ${woidy}setppbot [ Send Image ]
 ${woidy}setbotname
+${woidy}kirimmediachn [kirimedia to channel]
+${woidy}kirimpesanch [kirimpesan to channel]
+${woidy}cekidchannel [gunakan commanad ini di ch]
+
 `)
 } if (args[0] === "main") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
@@ -1621,7 +1631,6 @@ ${woidy}claim
 ${woidy}bulanan
 ${woidy}ping
 ${woidy}saldo
-${woidy}tqto [ Developer]
 ${woidy}owner [ Developer]
 ${woidy}transfer
 ${woidy}saving
@@ -1644,6 +1653,7 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 
 *Download Menu*
 ${woidy}spotifydl [ Link ]
+${woidy}soundclouddl [ Link ]
 ${woidy}play [ Question ]
 ${woidy}audio [ Reply ]
 ${woidy}video [ Reply ]
@@ -1671,6 +1681,7 @@ ${woidy}ytmp3 [ Link ]
 ${woidy}smeme [ Text ]
 ${woidy}sticker [ Reply Image ]
 ${woidy}qc [ Text ]
+${woidy}brat [text]
 ${woidy}toimg [ Reply Sticker ]
 ${woidy}tovn [ Reply video ]
 ${woidy}tourl [ Reply Image ]
@@ -1703,6 +1714,7 @@ ${woidy}soundcloud [ Question ]
 ${woidy}gimage [ Question ]
 ${woidy}tiktoks [ Question ]
 ${woidy}spotifysearch [ Judul ]
+${woidy}soundcloudsearch [ Judul ]
 ${woidy}pin [ Question ]
 `)
 } if (args[0] === "group") {
@@ -1731,6 +1743,7 @@ ${woidy}antilinkv1 [ enable/disable ]
 ${woidy}welcome [ on/off ]
 ${woidy}cekasalmember
 ${woidy}setppgc
+${woidy}antipromosi enable/disable
 ${woidy}hidetag [ Pesan ]
 ${woidy}creategc [ Name ]
 ${woidy}setnamagc [ Name ]
@@ -4016,10 +4029,106 @@ case 'buka': case 'rvo': {
     break;
 }
 
-    
-    
+case 'sndl': case 'soundclouddl': {
+    const fs = require('fs');
+    const scdl = require('soundcloud-downloader').default;
+    const path = './soundcloud.mp3';
+
+    if (!text) return m.reply("⚠️ Masukkan URL SoundCloud yang valid!");
+
+    try {
+       
+        const stream = await scdl.download(text).catch((e) => {
+            throw new Error("⚠️ Gagal mengunduh audio dari URL. Pastikan URL benar dan file tersedia.");
+        });
+
+        const writeStream = fs.createWriteStream(path);
+        stream.pipe(writeStream);
+
+        writeStream.on("finish", async () => {
+            const buffer = fs.readFileSync(path);
+
+           
+            await dy.sendMessage(
+                m.chat,
+                {
+                    audio: buffer,
+                    mimetype: "audio/mpeg",
+                    ptt: false,
+                    contextInfo: {
+                        externalAdReply: {
+                            showAdAttribution: true,
+                            mediaType: 1,
+                            mediaUrl: text,
+                            title: "SoundCloud Audio",
+                            body: "Audio telah diunduh!",
+                            sourceUrl: text,
+                            thumbnailUrl: "https://telegra.ph/file/662564e95a8fe4c21cb33.jpg",
+                        },
+                    },
+                },
+                { quoted: fverif }
+            );
+
+            fs.unlinkSync(path); 
+        });
+
+        writeStream.on("error", async (error) => {
+            m.reply("⚠️ Gagal menyimpan file audio.");
+            console.error("Error writing stream:", error);
+        });
+    } catch (error) {
+        console.error("Download error:", error);
+        return m.reply(`⚠️ Terjadi kesalahan: ${error.message}`);
+    }
+    break;
+}
+
+
+case "soundcloudsearch": case 'soundcs': {
+    if (!text) return m.reply("Masukkan query pencarian!\n\n*Contoh:* soundcloudsearch Neck Deep - December");
+
+    const scrapeSoundCloud = async (query) => {
+        try {
+            const url = `https://m.soundcloud.com/search?q=${encodeURIComponent(query)}`;
+            const { data } = await axios.get(url);
+            const $ = cheerio.load(data);
+
+            let results = [];
+            $(".List_VerticalList__2uQYU li").each((index, element) => {
+                const title = $(element).find(".Cell_CellLink__3yLVS").attr("aria-label");
+                const musicUrl = "https://m.soundcloud.com" + $(element).find(".Cell_CellLink__3yLVS").attr("href");
+                if (title && musicUrl) {
+                    results.push({ title, url: musicUrl });
+                }
+            });
+
+            return results.slice(0, 5); 
+        } catch (error) {
+            return [];
+        }
+    };
+
+    try {
+        const searchResults = await scrapeSoundCloud(text);
+        if (searchResults.length === 0) return m.reply("⚠️ Tidak ada hasil ditemukan.");
+
+        let resultMessage = "*Hasil Pencarian SoundCloud:*\n\n";
+        searchResults.forEach((result, index) => {
+            resultMessage += `*${index + 1}. ${result.title}*\n🔗 ${result.url}\n\n`;
+        });
+
+        return m.reply(resultMessage.trim());
+    } catch (error) {
+        return m.reply("⚠️ Terjadi kesalahan saat memproses permintaan.");
+    }
+    break;
+}
+
     
 case 'soundcloud': {
+  
+const path = './soundcloud.mp3';
     if (!text) {
         return m.reply(`Masukan judul lagu\n\n*Contoh:* ${prefix + command} Neck Deep - December`);
     }
@@ -4545,54 +4654,42 @@ async function createImage(url) {
   });
 uselimit()}
 break
+
 case 'spotifydl': {
-    if (!text) return m.reply("Silakan masukkan nama lagu atau URL Spotify untuk diunduh!");
-
-    const Spotify = require('./media/spotify.js'); // Path file Spotify
-    const fs = require('fs'); // File System untuk manipulasi file
-    const path = require('path');
-
+    if (!text) return m.reply("Masukkan URL Spotify yang valid!");
+const Spdl = require('./lib/spdl.js');
+const fs = require("fs");
+const axios = require("axios");
+const path = require("path");
     try {
-        // Memanggil fungsi searchAndDownload
-        const result = await Spotify.searchAndDownload(text);
+        const result = await Spdl.SpDownload(text);
 
         if (result.status) {
-            const data = result.data;
-            
-            // Unduh file audio
-            const audioPath = path.resolve(__dirname, `./tmp/${data.title}.mp3`);
-            const writer = fs.createWriteStream(audioPath);
-            const response = await axios({
-                url: data.download,
-                method: 'GET',
-                responseType: 'stream',
-            });
+            const { title, artist, duration, download } = result.data;
+            const audioPath = `./tmp/${title}.mp3`;
 
+            const writer = fs.createWriteStream(audioPath);
+            const response = await axios({ url: download, method: 'GET', responseType: 'stream' });
             response.data.pipe(writer);
 
-            // Tunggu proses unduhan selesai
-            writer.on('finish', async () => {
-                m.reply(`Berhasil mengunduh:\n\n🎵 Judul: ${data.title}\n👤 Artis: ${data.artist}\n⏱️ Durasi: ${data.duration}`);
-                
-                // Kirim file audio ke pengguna
+            writer.on("finish", async () => {
+                m.reply(`Music Deskripsi\n\n🎵 Judul: ${title}\n👤 Artis: ${artist}\n⏱️ Durasi: ${duration}`);
                 await dy.sendMessage(m.chat, { audio: { url: audioPath }, mimetype: 'audio/mpeg' }, { quoted: fverif });
-
-                // Hapus file sementara
                 fs.unlinkSync(audioPath);
             });
 
-            writer.on('error', (error) => {
-                m.reply(`Gagal mengunduh file audio: ${error.message}`);
+            writer.on("error", (err) => {
+                m.reply(`Terjadi kesalahan saat mengunduh: ${err.message}`);
             });
         } else {
-            m.reply(`Gagal mengambil data: ${result.msg}`);
+            m.reply(result.msg);
         }
-    } catch (error) {
-        m.reply("Terjadi kesalahan saat mengambil data dari Spotify: " + error.message);
-        console.error("Error:", error);
+    } catch (e) {
+        m.reply("Error: " + e.message);
     }
     break;
 }
+
 case 'splay': {
     if (!text) return m.reply("Silakan masukkan nama lagu atau URL Spotify untuk diunduh!");
 
@@ -7009,7 +7106,7 @@ case 'cekidchannel': {
     }
 }
 break;
-case 'kirimpesanchannel': {
+case 'kirimpesanch': {
 if (!isCreator) return reply(mess.owner)
     if (!text) return reply(`*Example*: ${prefix + command} 120363303267333730@newsletter | Halo semua!`);
 
