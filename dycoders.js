@@ -6,6 +6,7 @@ const os = require('os');
 const util = require('util')
 const cheerio = require('cheerio');
 const chalk = require("chalk");
+const ytmp3 = require('./lib/ytmp3');
 const axios = require('axios')
 const sharp = require('sharp');
 const yts = require ('yt-search');
@@ -19,7 +20,9 @@ const canvacord = require("canvacord");
 const { exec } = require("child_process")
 const { randomBytes } = require('crypto') 
 const Tesseract = require('tesseract.js');
+const { islamai } = require('./lib/islamai');
 const { openai } = require('./lib/scrape/Ai');
+const ytmp4 = require('./lib/ytmp4');
 const blackbox = require('./lib/scrape/blackbox');
 const { addExif, addExifAvatar } = require('./lib/exif')
 const levelling = require("./lib/levelling");
@@ -1524,6 +1527,7 @@ ${woidy}suit
 ${woidy}askgpt [teks]
 ${woidy}ai [teks]
 ${woidy}opengpt [teks]
+${woidy}islamai [teks]
 
 *Store Menu*
 ${woidy}done
@@ -1793,6 +1797,8 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ${woidy}askgpt [text]
 ${woidy}ai [text]
 ${woidy}opengpt [text]
+${woidy}islamai [text]
+
 `)
 } if (args[0] === "store") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
@@ -2022,7 +2028,30 @@ case 'bocchi': {
     }
     }
     break
-    
+ 
+
+
+case 'islamai': {
+
+  
+    if (!text) {
+        return m.reply('Masukkan pertanyaan yang ingin diajukan!\nContoh: !islamai Apa hukum sholat Jumat?');
+    }
+
+    try {
+        const response = await islamai(text.trim());
+        if (response && response.result) {
+            m.reply(`🕌 *Islam AI*\n\n${response.result}`);
+        } else {
+            m.reply('⚠️ Tidak dapat mendapatkan respons dari Islam AI. Coba lagi nanti.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        m.reply('⚠️ Terjadi kesalahan saat memproses permintaan. Coba lagi nanti.');
+    }
+    break;
+}
+
 case 'ai': {
     if (!text) return m.reply(`Masukkan query yang benar\nContoh: ${prefix}${command} selamat pagi`);
 
@@ -3654,6 +3683,68 @@ case 'play': {
 }
 
 
+
+case 'ytmp4': {
+    if (!text) {
+        return m.reply('Masukkan URL YouTube!\nContoh: !ytmp4 https://www.youtube.com/watch?v=example');
+    }
+
+    try {
+        const videoUrl = text.trim();
+        const { buffer, thumbnail, title } = await ytmp4.downloadVideo(videoUrl, 'mp4', '360');
+
+        await dy.sendMessage(from, {
+            video: buffer,
+            mimetype: 'video/mp4',
+            fileName: `${title}.mp4`,
+            caption: `🎥 *Title*: ${title}\n\n✅ Video berhasil diunduh!`,
+            thumbnail: thumbnail ? { url: thumbnail } : null
+        }, { quoted: fverif });
+    } catch (error) {
+        console.error('Error:', error);
+        m.reply('⚠️ Terjadi kesalahan saat memproses permintaan. Pastikan URL yang dimasukkan valid.');
+    }
+    break;
+}
+
+
+
+case 'ytmp3': {
+    if (!text) {
+        return m.reply('Masukkan URL YouTube!\nContoh: !ytmp3 https://www.youtube.com/watch?v=example');
+    }
+
+    try {
+      await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
+        
+        const videoUrl = text.trim();
+        const { buffer, thumbnail, title } = await ytmp3.download(videoUrl, 'mp3', '128');
+
+        await dy.sendMessage(from, {
+            audio: buffer,
+            mimetype: 'audio/mpeg',
+            fileName: `${title}.mp3`,
+            caption: `🎵 *Title*: ${title}\n\n✅ Audio berhasil diunduh!`,
+            thumbnail: thumbnail ? { url: thumbnail } : null
+        }, { quoted: fverif });
+        
+        await dy.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
+
+    } catch (error) {
+        console.error('Error:', error);
+        m.reply('⚠️ Terjadi kesalahan saat memproses permintaan. Pastikan URL yang dimasukkan valid.');
+    }
+    break;
+}
+
+
 case 'stickersearch': {
     if (!text) return m.reply('Masukkan kata kunci untuk mencari stiker!\nContoh: !stickersearch hello');
 
@@ -3721,29 +3812,6 @@ uselimit()}
 break
 
 
-
-case 'ytmp4': {
-if (limitnya < 1) return m.reply(mess.limit)
-if (m.isGroup) {
-reply(`Bot Telah Mengirimkan Video Di Private Chat !!!`)}
-if (!text) return reply(`*Example*: ${prefix + command} https://www.youtube.com/xxxxxxx`)
-/*dy.sendMessage(m.chat, { react: { text: '🕒', key: m.key }})
-let searchResponse = await ytdlnew(text)
-dy.sendMessage(sender, { video: {url: searchResponse.mp4DownloadLink}, caption: '' },
-{ quoted:m})*/
-downloadMp4(text)
-uselimit()}
-break
-    
-    case 'ytmp3': {
-    if (limitnya < 1) return m.reply(mess.limit)
-if (!text) return reply(` *Example :* .${command} https://www.youtube.com/xxxxxxx`)
-/*dy.sendMessage(m.chat, { react: { text: '🕒', key: m.key }})
-let searchResponse = await ytdlnew(text)
-dy.sendMessage(m.chat, { audio: {url: searchResponse.mp3DownloadLink}, mimetype: "audio/mp4", ptt: true},{quoted:m})*/
-downloadMp3(text)
-uselimit()}
-break
 //BATAS DOWNLOAD MENU
 
 //CONVERT MENU
@@ -3872,21 +3940,36 @@ if (!isCreator) return m.reply(mess.owner);
     break;
 }
 case 'cektrx': {
-  if (!isCreator) return m.reply(mess.owner); 
-  const url = `https://api.simplebot.my.id/api/orkut/cekstatus?apikey=skyzo&merchant=${global.Merchantid}&keyorkut=${global.ApiOrkut}`;
+  if (!isCreator) return m.reply(mess.owner);
+  const url = `https://gateway.okeconnect.com/api/mutasi/qris/${global.Merchantid}/${global.ApiOrkut}`;
 
   try {
     const response = await axios.get(url);
     const data = response.data;
 
-    m.reply(`JSON Response:\n\n${JSON.stringify(data, null, 2)}`);
+   
+    if (data.status === 'success' && Array.isArray(data.data)) {
+      let message = '🔍 *Riwayat Transaksi:*\n\n';
+      data.data.forEach((trx, index) => {
+        message += `🗓️ *Tanggal*: ${trx.date}\n`;
+        message += `💵 *Jumlah*: ${trx.amount}\n`;
+        message += `🔄 *Tipe*: ${trx.type}\n`;
+        message += `🏷️ *Brand*: ${trx.brand_name}\n`;
+        message += `📄 *Issuer Ref*: ${trx.issuer_reff}\n`;
+        message += `📝 *Buyer Ref*: ${trx.buyer_reff}\n`;
+        message += `💰 *Saldo*: ${trx.balance}\n`;
+        message += `---\n`;
+      });
+      m.reply(message);
+    } else {
+      m.reply('⚠️ Data tidak ditemukan atau format tidak valid.');
+    }
   } catch (error) {
     console.error('Error fetching data:', error);
     m.reply('⚠️ Terjadi kesalahan saat memproses permintaan.');
   }
   break;
 }
-
 
 
 case 'brat': {
