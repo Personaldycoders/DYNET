@@ -69,6 +69,7 @@ global.Scraper = {
     Convert: require('./lib/scrape/converter'),
     Otakudesu: require('./lib/scrape/otakudesu'),
     Prodia: require('./lib/scrape/Prodia'),
+    islamai: require('./lib/islamai'),
     Meganei: require('./lib/scrape/Meganei'),
     Vn: require('./lib/scrape/Voice.js'),
     YTnew: require('./lib/scrape/ytdlNew'),
