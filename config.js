@@ -115,6 +115,22 @@ global.qris = "https://files.catbox.moe/eariuo.jpg"
 global.ApiOrkut = "260324417341448542126400OKCTxxxxxxxx"
 global.Merchantid = "OK21xxxc"
 
+//DAFTAR HARGA PANEL BISA LU GANTI MISAL 1000=1K
+
+global.panel1gb = "1000" //1k
+global.panel2gb = "2000" //2k
+global.panel3gb = "3000" //3k
+global.panel4gb = "4000" //4k
+global.panel5gb = "5000" //5k
+global.panel6gb = "6000" //6k
+global.panel7gb = "7000" //7k
+global.panelunli = "9000" //9k
+global.ptpanel = "20000" //20k
+global.ownerpanel = "30000" //30k
+global.adminpanel = "12000" //12k
+
+global.scbug = ""
+global.hargascbug = ""
 
 //DATABASE 
 global.limitawal = 10
