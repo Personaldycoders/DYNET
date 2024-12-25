@@ -10,14 +10,8 @@ global.ownername = "DYCODERS.XYZ"
 global.owner = "6285719898124"
 global.idch = "120363303267333730@newsletter"
 
-global.bug = {
-   aaa: "釢凁潗櫷⑻葛潗勷潗撏犪瑏虁蜔饾悇饾悧蜏饾悇饾悅谈汀饾悢汀汀蜏饾悡饾悎廷饾悗饾悕馃摐",
-   bbb: "饾悅蜖蜏饾悪廷谈饾悁蛡饝垉袒汀痛饾悊谈蜖饾悗蜏饾悆 馃獧",
-   ccc: "釟� 饾悆蜖潭谈饾悗廷饾悓汀饾悎饾悕蜏饾悁饾悡汀饾悎蜏饾悗谈饾悕 饾悗廷谭處饾悈 饾悪廷汀饾悇蛯虁蛼饾悡蜖 鈿楋笍"
-}
-//hiyasan
 
-global.dycoders = '`'
+global.dycoders = '>.'
 global.woidy = '->.'
 global.hiasan = '> .'
 global.hiasanB = '╭─ •'
@@ -43,7 +37,7 @@ global.email = 'xx@gmail.com' // kalo mau buypanel work, gunakan email yang terd
 //Mess
 global.mess = {
 owner: `Only Owner, Cannot be Used by Users`,
-bugrespon: `Processs...`,
+wait: `sabar...`,
 success: `Successfully sent to target`,
 group: `Feature Only Used For Groups !`,
 Badmin: `Features can be used after the bot becomes an admin !`,
@@ -101,9 +95,9 @@ global.token_do = ''
 //apikey
 global.skizo = "dycoders"
 //SETTINGS PANEL
-global.domain = "https://publicpanelasta.xyydycoders.xyz"
-global.apikey = "ptla_eqOwQa88wrI1ob3DdsaHlWYv6Cle4XTY9ol7kuuuuWE"
-global.capikey = "ptlc_DeUySX6VgKm5xitEbArMbdGYaybU5k5UFZQJs39tE37"
+global.domain = ""
+global.apikey = ""
+global.capikey = ""
 global.eggnya = "15"
 global.locnya = "1"
 
@@ -128,9 +122,22 @@ global.panelunli = "9000" //9k
 global.ptpanel = "20000" //20k
 global.ownerpanel = "30000" //30k
 global.adminpanel = "12000" //12k
+global.hargareseller = ""
 
-global.scbug = ""
-global.hargascbug = ""
+
+//batas harga
+global.linkptpanel = ""
+global.linkownerpanel = ""
+global.linkgrupadminpanel = ""
+global.linkreseller = ""
+
+//ZONE ID && APIKEY SUBDOMAIN CLOUDFLARE
+
+global.zone = ""
+global.apikeysubdo = ""
+global.subdomain = ""
+
+
 
 //DATABASE 
 global.limitawal = 10
