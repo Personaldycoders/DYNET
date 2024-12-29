@@ -8,14 +8,13 @@ const { dycodersConnect, downloadContentFromMessage, emitGroupParticipantsUpdate
 const fs = require('fs')
 const { Client } = require('ssh2');
 const os = require('os');
+const search = require ("yt-search");
+const { youtube } = require("btch-downloader");
 const util = require('util')
 const cheerio = require('cheerio');
 const chalk = require("chalk");
-const ytmp3 = require('./lib/ytmp3');
 const axios = require('axios')
 const sharp = require('sharp');
-const yts = require ('yt-search');
-const ytdl = require("ytdl-core");
 const crypto = require('crypto')
 const tough = require('tough-cookie');
 const { wrapper } = require('axios-cookiejar-support');
@@ -127,8 +126,6 @@ const groupMetadata = m?.isGroup ? await dy.groupMetadata(m?.chat).catch(e => {}
 const scdl = require('soundcloud-downloader').default;
 
 const { chatAI, fetchUser } = require("./lib/scrape/scrape-ai")
-const { ytdlBaru } = require('./lib/scrape/scrape-ytdl')
-const { ytdlnew } = require('./lib/ytdlnew')
 const { tiktoks } = require('./lib/tiktoks')
 const uploadImage = require('./lib/uploadImage.js')
 let Button = require("./lib/button");
@@ -1510,9 +1507,6 @@ ________,,,_______________________,,,____
 ${woidy}jadibot
 ${woidy}stopjadibot
 ${woidy}listjadibot
-
-*Ddos Featured*
-${woidy}cfbypass
 
 *Cpanel Menu*
 ${woidy}1gb
@@ -3774,122 +3768,13 @@ break;
         
         
         
-        
-case "play2": {
-if (!text) return reply(`*Example:* ${prefix + command} photograph`)
-const yts = require('yt-search');
-let search = await yts(text);
-let telaso = search.all[0].url;
-var response = await ytdlBaru(telaso)
-var puki = response.data.mp3
-dy.sendMessage(m.chat, { audio: { url: puki },
-mimetype: "audio/mpeg",
-fileName: "kiuu.mp3",
-contextInfo: {
-forwardingScore: 99999999999,
-isForwarded: true,
-externalAdReply: {
-showAdAttribution: false,
-containsAutoReply: true,
-mediaType: 1,
-renderLargerThumbnail: true,
-title: search.all[0].title,
-body: `Song duration: ${search.all[0].timestamp}`,
-previewType: "PHOTO",
-thumbnailUrl: search.all[0].thumbnail,
-}}},{quoted:m })
-}
-break
-
-case 'play': {
-    if (!text) return reply(`Example : ${prefix + command} membasuh`)
-    
-   
-    let wait = await dy.sendMessage(m.chat, {
-        text: `_Searching.. [ ${text} ] 🔍_`
-    }, {
-        quoted: fopenai,
-        ephemeralExpiration: 86400
-    })
-    
-   
-    let search = await yts(`${text}`)
-    let data = await search.all.filter((v) => v.type == 'video')
-    
-    try {
-        var res12 = data[0]
-    } catch {
-        var res12 = data[1]
-    }
-    
-  
-    let ply = search.videos[0].url
-    
-   
-    let pl = await Scraper.Ytdl.download(ply, 'mp3', '128')
-    
-   
-    await dy.sendMessage(m.chat, {
-        text: `_Mengirim.. [ ${text} ] _💬`,
-        edit: wait.key
-    }, {
-        quoted: fverif,
-        ephemeralExpiration: 86400
-    });
-    
-
-    await dy.sendMessage(m.chat, {
-        audio: pl.buffer,
-        mimetype: 'audio/mp4',
-        ptt: false 
-    }, { quoted: fverif })
-    
-   
-    dy.sendMessage(m.chat, {
-        react: {
-            text: '🎧',
-            key: m.key
-        }
-    })
-    break
-}
-
-case 'ytmp4': {
-    if (!text) {
-        return m.reply('Masukkan URL YouTube!\nContoh: !ytmp4 https://www.youtube.com/watch?v=example');
-    }
-
-    try {
-        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
-
-        const videoUrl = text.trim();
-        const { metadata, download } = await require('./lib/scrape/youtube').mp4(videoUrl);
-
-        await dy.sendMessage(from, {
-            video: download,
-            mimetype: 'video/mp4',
-            fileName: `${metadata.title}.mp4`,
-            caption: `🎥 *Title*: ${metadata.title}\n📅 *Published*: ${metadata.publish}\n👀 *Views*: ${metadata.views}\n✍️ *Author*: ${metadata.author}\n\n✅ Video berhasil diunduh!`,
-            thumbnail: metadata.thumbnail ? { url: metadata.thumbnail } : null
-        }, { quoted: fverif });
-
-        await dy.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
-    } catch (error) {
-        console.error('Error:', error);
-        m.reply('⚠️ Terjadi kesalahan saat memproses permintaan. Pastikan URL yang dimasukkan valid.');
-    }
-    break;
-}
 
 
+ // End Tools Menu , Start Search & Play Menu //
 
-case 'ytmp3': {
-    if (!text) {
-        return m.reply('Masukkan URL YouTube!\nContoh: !ytmp3 https://www.youtube.com/watch?v=example');
-    }
-
-    try {
-      await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+ case 'play': {
+if (!text) return reply(`Example : ${prefix + command} membasuh`);
+ await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
         await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
         await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
         await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
@@ -3897,23 +3782,169 @@ case 'ytmp3': {
         await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
         await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
         await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
-        
-        const videoUrl = text.trim();
-        const { buffer, thumbnail, title } = await ytmp3.download(videoUrl, 'mp3', '128');
+try {
+async function getBuffer(url) {
+const res = await axios({
+method: 'get',
+url,
+responseType: 'arraybuffer'
+});
+return res.data;
+}
+const look = await search(text);
+const convert = look.videos[0];
+if (!convert) return m.reply('Audio Tidak Ditemukan');
+if (convert.seconds >= 3600) {
+return m.reply('Audio is longer than 1 hour!');
+}
+let audioUrl;
+try {
+audioUrl = await youtube(convert.url);
+} catch (e) {
+reply("Retrying...");
+audioUrl = await youtube(convert.url);
+}
+const thumbBuffer = await getBuffer(convert.thumbnail);
+await dy.sendMessage(m.chat, {
+audio: {
+url: audioUrl.mp3
+},
+mimetype: 'audio/mpeg',
+}, {
+quoted: fverif
+});
+} catch (e) {
+m.reply(`*Error:* ${e.message}`);
+}
+};
+break;
 
-        await dy.sendMessage(from, {
-            audio: buffer,
-            mimetype: 'audio/mpeg',
-            fileName: `${title}.mp3`,
-            caption: `🎵 *Title*: ${title}\n\n✅ Audio berhasil diunduh!`,
-            thumbnail: thumbnail ? { url: thumbnail } : null
+case 'ytmp4': {
+  const fs = require('fs');
+const path = require('path');
+const axios = require('axios');
+
+    if (!text) return reply(`Example: ${prefix + command} https://www.youtube.com/watch?v=vs-gfy3Pv1c`);
+
+    await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
+
+    try {
+        const ytRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+        if (!ytRegex.test(text)) return reply("Masukkan URL YouTube yang valid!");
+
+        const data = await youtube(text);
+
+        if (!data.mp4) return reply("Video tidak tersedia untuk diunduh!");
+
+        const fileName = `${data.title.replace(/[^a-zA-Z0-9]/g, '_')}.mp4`;
+        const filePath = path.join(__dirname, 'tmp', fileName);
+
+        const response = await axios({
+            method: 'get',
+            url: data.mp4,
+            responseType: 'stream',
+        });
+
+        const writer = fs.createWriteStream(filePath);
+        response.data.pipe(writer);
+
+        await new Promise((resolve, reject) => {
+            writer.on('finish', resolve);
+            writer.on('error', reject);
+        });
+
+        await dy.sendMessage(m.chat, {
+            video: { url: filePath },
+            caption: `🎥 *YTMP4*\n\n*Title*: ${data.title}\n*Channel*: ${data.name}\n*Views*: ${data.views}\n*Uploaded*: ${data.ago}`,
         }, { quoted: fverif });
-        
+
         await dy.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
-    } catch (error) {
-        console.error('Error:', error);
-        m.reply('⚠️ Terjadi kesalahan saat memproses permintaan. Pastikan URL yang dimasukkan valid.');
+        fs.unlinkSync(filePath);
+    } catch (e) {
+        reply(`*Error:* ${e.message}`);
+    }
+    break;
+}
+
+
+
+case 'ytjson': {
+    if (!text) return reply(`Example: ${prefix + command} https://youtube.com/watch?v=C8mJ8943X80`);
+
+    try {
+        const ytRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+        if (!ytRegex.test(text)) return reply("Masukkan URL YouTube yang valid!");
+
+        const data = await youtube(text);
+        console.log(data); // Menampilkan data JSON ke console
+
+        await dy.sendMessage(m.chat, {
+            text: `Berhasil mendapatkan data JSON:\n\n\`\`\`${JSON.stringify(data, null, 2)}\`\`\``,
+        }, {
+            quoted: fverif
+            
+        });
+    } catch (e) {
+        reply(`*Error:* ${e.message}`);
+    }
+    break;
+}
+
+
+
+case 'ytmp3': {
+    if (!text) return reply(`Example : ${prefix + command} membasuh`);
+ await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
+    try {
+        async function getBuffer(url) {
+            const res = await axios({
+                method: 'get',
+                url,
+                responseType: 'arraybuffer'
+            });
+            return res.data;
+        }
+
+        const ytRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+        if (!ytRegex.test(text)) return reply("Masukkan URL YouTube yang valid!");
+
+        let audioUrl;
+        try {
+            audioUrl = await youtube(text);
+        } catch (e) {
+            reply("Retrying...");
+            audioUrl = await youtube(text);
+        }
+
+        const videoId = text.split('v=')[1] || text.split('/').pop();
+        const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/0.jpg`;
+
+        let thumbBuffer;
+        try {
+            thumbBuffer = await getBuffer(thumbnailUrl);
+        } catch (e) {
+            thumbBuffer = null; 
+        }
+
+        await dy.sendMessage(m.chat, {
+            audio: {
+                url: audioUrl.mp3
+            },
+            mimetype: 'audio/mpeg',
+        }, {
+            quoted: fverif
+        });
+        await dy.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
+    } catch (e) {
+        m.reply(`*Error:* ${e.message}`);
     }
     break;
 }
@@ -4260,7 +4291,10 @@ break
 
 
 case 'buypanel1gb': {
- 
+   if (m.key.remoteJid.endsWith('@g.us')) {
+        return m.reply("Perintah ini hanya bisa digunakan di chat pribadi.");
+    }
+
   const { createCanvas, loadImage } = require('canvas');
   const fs = require('fs');
   const fetch = require('node-fetch');
@@ -4434,7 +4468,10 @@ case 'buypanel1gb': {
 
 
 case 'buypanel2gb': {
- 
+  if (m.key.remoteJid.endsWith('@g.us')) {
+        return m.reply("Perintah ini hanya bisa digunakan di chat pribadi.");
+    }
+
   const { createCanvas, loadImage } = require('canvas');
   const fs = require('fs');
   const fetch = require('node-fetch');
@@ -4607,7 +4644,9 @@ case 'buypanel2gb': {
 }
 
 case 'buypanel3gb': {
- 
+  if (m.key.remoteJid.endsWith('@g.us')) {
+        return m.reply("Perintah ini hanya bisa digunakan di chat pribadi.");
+    }
   const { createCanvas, loadImage } = require('canvas');
   const fs = require('fs');
   const fetch = require('node-fetch');
@@ -4781,7 +4820,10 @@ case 'buypanel3gb': {
 
 
 case 'buypanel4gb': {
- 
+  if (m.key.remoteJid.endsWith('@g.us')) {
+        return m.reply("Perintah ini hanya bisa digunakan di chat pribadi.");
+    }
+
   const { createCanvas, loadImage } = require('canvas');
   const fs = require('fs');
   const fetch = require('node-fetch');
@@ -4955,7 +4997,10 @@ case 'buypanel4gb': {
 
 
 case 'buypanel5gb': {
- 
+  if (m.key.remoteJid.endsWith('@g.us')) {
+        return m.reply("Perintah ini hanya bisa digunakan di chat pribadi.");
+    }
+
   const { createCanvas, loadImage } = require('canvas');
   const fs = require('fs');
   const fetch = require('node-fetch');
@@ -5128,7 +5173,10 @@ case 'buypanel5gb': {
 }
 
 case 'buypanel6gb': {
- 
+  if (m.key.remoteJid.endsWith('@g.us')) {
+        return m.reply("Perintah ini hanya bisa digunakan di chat pribadi.");
+    }
+
   const { createCanvas, loadImage } = require('canvas');
   const fs = require('fs');
   const fetch = require('node-fetch');
@@ -5301,7 +5349,10 @@ case 'buypanel6gb': {
 }
 
 case 'buypanel7gb': {
- 
+  if (m.key.remoteJid.endsWith('@g.us')) {
+        return m.reply("Perintah ini hanya bisa digunakan di chat pribadi.");
+    }
+
   const { createCanvas, loadImage } = require('canvas');
   const fs = require('fs');
   const fetch = require('node-fetch');
@@ -5706,7 +5757,10 @@ case 'refeshtrx': {
 
 
 case 'buypanelunli': {
- 
+  if (m.key.remoteJid.endsWith('@g.us')) {
+        return m.reply("Perintah ini hanya bisa digunakan di chat pribadi.");
+    }
+
   const { createCanvas, loadImage } = require('canvas');
   const fs = require('fs');
   const fetch = require('node-fetch');
@@ -6324,7 +6378,6 @@ case 'sticker': case 's': case 'stickergif': case 'sgif': {
     }
     uselimit()
     break
-    
     case "sendpayment":
 case "payment":
 case "pay":
@@ -6332,11 +6385,10 @@ case "listpayment": {
   const url = "https://telegra.ph/file/662564e95a8fe4c21cb33.jpg";
 
   async function image(url) {
-    const { imageMessage } = await generateWAMessageContent({
-      image: { url }
-    }, {
-      upload: dy.waUploadToServer
-    });
+    const { imageMessage } = await generateWAMessageContent(
+      { image: { url } },
+      { upload: dy.waUploadToServer }
+    );
     return imageMessage;
   }
 
@@ -6347,25 +6399,10 @@ case "listpayment": {
         message: {
           interactiveMessage: {
             body: {
-              text: `Berikut List Payment Saya Yah`
+              text: `Berikut QRIS Payment Saya Yah`
             },
             carouselMessage: {
               cards: [
-                {
-                  header: {
-                    imageMessage: await image('https://telegra.ph/file/c605b34f0d4f0127735b4.jpg'),
-                    hasMediaAttachment: true,
-                  },
-                  body: { text: `> COPY DANA DIBAWAH` },
-                  nativeFlowMessage: {
-                    buttons: [
-                      {
-                        "name": "cta_copy",
-                        "buttonParamsJson": "{\"display_text\":\"PAYMENT DANA 🎐\",\"id\":\"123456789\",\"copy_code\":\"083877804993\"}"
-                      },
-                    ],
-                  },
-                },
                 {
                   header: {
                     imageMessage: await image('https://files.catbox.moe/s5oi1u.jpg'),
@@ -6377,21 +6414,6 @@ case "listpayment": {
                       {
                         "name": "cta_copy",
                         "buttonParamsJson": "{\"display_text\":\"PAYMENT QRIS 🎐\",\"id\":\"123456789\",\"copy_code\":\"https://files.catbox.moe/s5oi1u.jpg\"}"
-                      },
-                    ],
-                  },
-                },
-                {
-                  header: {
-                    imageMessage: await image('https://files.catbox.moe/mps5wg.jpg'), 
-                    hasMediaAttachment: true,
-                  },
-                  body: { text: `> QRIS LAIN` },
-                  nativeFlowMessage: {
-                    buttons: [
-                      {
-                        "name": "cta_copy",
-                        "buttonParamsJson": "{\"display_text\":\"PAYMENT QRIS TAMBAHAN 🎐\",\"id\":\"123456789\",\"copy_code\":\"https://files.catbox.moe/mps5wg.jpg\"}"
                       },
                     ],
                   },
@@ -6439,8 +6461,7 @@ case 'buka': case 'rvo': {
     }
     }
     break
-   
-    
+
     
     case 'batoto': {
     try {
@@ -6706,6 +6727,75 @@ const path = './soundcloud.mp3';
     }
     uselimit()
     break;
+}
+case 'soundplay': {
+  if (limitnya < 1) return m.reply(mess.limit);
+  const path = './soundcloud.mp3';
+  
+  if (!text) {
+    return m.reply(`Masukan judul lagu\n\n*Contoh:* ${prefix + command} Neck Deep - December`);
+  }
+
+  const scrapeSoundCloud = async (query) => {
+    try {
+      const url = `https://m.soundcloud.com/search?q=${encodeURIComponent(query)}`;
+      const { data } = await axios.get(url);
+      const $ = cheerio.load(data);
+
+      let results = [];
+      $('.List_VerticalList__2uQYU li').each((index, element) => {
+        const title = $(element).find('.Cell_CellLink__3yLVS').attr('aria-label');
+        const musicUrl = 'https://m.soundcloud.com' + $(element).find('.Cell_CellLink__3yLVS').attr('href');
+        if (title && musicUrl) {
+          results.push({ title, url: musicUrl });
+        }
+      });
+
+      return results.slice(0, 1);
+    } catch (error) {
+      return [];
+    }
+  };
+
+  try {
+    const searchResults = await scrapeSoundCloud(text);
+    if (searchResults.length === 0) {
+      return m.reply('⚠️ Tidak ada hasil ditemukan.');
+    }
+
+    const targetUrl = searchResults[0].url;
+    await dy.sendMessage(m.chat, { react: { text: '🕜', key: m.key } });
+
+    const stream = await scdl.download(targetUrl);
+    const writeStream = fs.createWriteStream(path);
+
+    stream.pipe(writeStream);
+
+    writeStream.on('finish', async () => {
+      const buffer = fs.readFileSync(path);
+
+      await dy.sendMessage(
+        m.chat,
+        {
+          audio: buffer,
+          mimetype: 'audio/mpeg',
+          ptt: true,  // Mengirim audio dengan PTT (push-to-talk)
+        }
+      );
+
+      fs.unlinkSync(path);  // Menghapus file setelah dikirim
+    });
+
+    writeStream.on('error', async () => {
+      await dy.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
+      m.reply('⚠️ Gagal menyimpan file audio.');
+    });
+  } catch (error) {
+    await dy.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
+    return m.reply('⚠️ Terjadi kesalahan saat memproses permintaan.');
+  }
+  uselimit();  // Memanggil fungsi limit setelah selesai
+  break;
 }
 
 
@@ -7412,6 +7502,67 @@ case 'splay': {
     uselimit()
     break;
 }
+
+case 'ngeplay': {
+  if (limitnya < 1) return m.reply(mess.limit);
+  if (!text) return m.reply("Silakan masukkan nama lagu atau URL Spotify untuk diunduh!");
+
+  const Spotify = require('./media/spotify.js');
+  const fs = require('fs');
+  const path = require('path');
+  const axios = require('axios');
+
+  try {
+    // Mengirim reaksi awal (hanya sekali)
+    await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
+
+    const result = await Spotify.searchAndDownload(text);
+
+    if (result.status) {
+      const data = result.data;
+
+      const audioPath = path.resolve(__dirname, `./tmp/${data.title}.mp3`);
+      const writer = fs.createWriteStream(audioPath);
+      const response = await axios({
+        url: data.download,
+        method: 'GET',
+        responseType: 'stream',
+      });
+
+      response.data.pipe(writer);
+
+      writer.on('finish', async () => {
+        await dy.sendMessage(
+          m.chat,
+          {
+            audio: { url: audioPath },
+            mimetype: 'audio/mpeg',
+            ptt: true,  // Mengirim audio dengan PTT (push-to-talk)
+          }
+        );
+
+        // Menghapus file setelah dikirim
+        fs.unlinkSync(audioPath);
+      });
+
+      writer.on('error', async (error) => {
+        await dy.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
+        m.reply(`Gagal mengunduh file audio: ${error.message}`);
+      });
+    } else {
+      await dy.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
+      m.reply(`Gagal mengambil data: ${result.msg}`);
+    }
+  } catch (error) {
+    await dy.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
+    console.error("Error:", error);
+    m.reply("Terjadi kesalahan saat mengambil data dari Spotify: " + error.message);
+  }
+  uselimit();  // Memanggil fungsi limit setelah selesai
+  break;
+}
+
+
 case 'sendmsg': {
     if (!isDycoders) return m.reply(mess.owner); 
 
@@ -8638,23 +8789,6 @@ listjadibot(dy, m)
 }
 break
 
-case 'cfbypass':{
-if (!isDycoders) return reply(mess.owner)
-if (!text) return reply(`this is how to use it ${prefix + command} <url> <time>`)
-let url = q.split(" ")[0]
-let time = q.split(" ")[1] * 10
-reply(`*[  !  ]  successful ddos web with the following format* :
-> method: ${command} 
-> Target: ${url} 
-> Duration: ${time}
-
-Don't use it too much, because it will have fatal consequences for you (user panel)`)
-exec(`node ./lib/ddos/CFBypass.js ${url} ${time}`, (err, stdout) => {
-if (err) return console.log(err.toString())
-if (stdout) return console.log(util.format(stdout))
-})
-}
-break 
 
 //RPG MENU
 case 'joinrpg':{
@@ -9626,7 +9760,8 @@ m.reply(`Contoh: ${prefix+command} ${res.meta.pagination.current_page + 1} untuk
 }
 break
 case 'createadmin': case 'adp': {
-    if (!isPremium) return m.reply(mess.premium);
+  
+if (!isDycoders) return m.reply(mess.owner);
     let t = text.split(',');
     if (t.length < 2) return m.reply(`Contoh: ${prefix + command} username,nomor`);
 
@@ -9806,6 +9941,7 @@ case 'cekidchannel': {
     }
 }
 break;
+
 case 'kirimpesanch': {
 if (!isDycoders) return reply(mess.owner)
     if (!text) return reply(`*Example*: ${prefix + command} 120363303267333730@newsletter | Halo semua!`);
@@ -9831,6 +9967,29 @@ if (!isDycoders) return reply(mess.owner)
     }
 }
 break;
+case 'woidy': {
+    try {
+        const channelId = m.key.remoteJid; // Mengambil ID Channel WhatsApp
+        const audioPath = 'media/audio.mp3'; // Path audio yang ingin dikirim
+        const audio = fs.readFileSync(audioPath); // Membaca file audio
+
+        // Kirim audio ke channel
+        await dy.sendMessage(channelId, {
+            audio: audio,
+            mimetype: 'audio/mp3',
+           
+        });
+
+        m.reply(`${channelId}`);
+    } catch (error) {
+        console.error(error);
+        m.reply('❌ Terjadi kesalahan saat mengirim audio ke channel.');
+    }
+}
+break;
+
+
+
 
 case 'cekidgc': {
   if (!isDycoders) return reply(mess.owner)
@@ -9932,77 +10091,37 @@ case "sisadroplet": {
 }
 break;
 
-
-
 case 'kirimmediach': {
-    if (!isDycoders) return reply(mess.owner)
-    if (!m.quoted) return reply(`*Reply* pesan yang berisi gambar, video, atau audio dengan command: ${prefix + command} 120363303267333730@newsletter`);
+if (!isDycoders) return reply(mess.owner)
+    if (!m.quoted) return reply(`*Reply* pesan yang berisi gambar atau video dengan command: ${prefix + command} 120363303267333730@newsletter`);
     if (!text) return reply(`*Example*: ${prefix + command} 120363303267333730@newsletter`);
 
     const mime = m.quoted.mimetype || '';
 
     try {
-       
+        // Ambil ID channel
         const formattedChannelId = text.trim();
 
-      
+        // Validasi format ID channel
         if (!formattedChannelId.endsWith('@newsletter')) {
             return reply('❌ Format ID channel salah! ID harus diakhiri dengan "@newsletter".');
         }
 
-      
-        const caption = `DY_NET`;
-
-        
+        // Cek MIME type media
         if (/image/.test(mime)) {
-            const media = await m.quoted.download();
-         
+            const media = await m.quoted.download(); // Download gambar
             await dy.sendMessage(formattedChannelId, {
-                image: media,
-                caption: caption, 
-                contextInfo: {
-                    forwardingScore: 999,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterName: botname,
-                        newsletterJid: "120363303267333730@newsletter"
-                    }
-                }
+                image: media, // Kirim tanpa caption
             });
             reply(`✅ Gambar berhasil dikirim ke channel:\n📋 ID: ${formattedChannelId}`);
         } else if (/video/.test(mime)) {
-            const media = await m.quoted.download(); 
+            const media = await m.quoted.download(); // Download video
             await dy.sendMessage(formattedChannelId, {
-                video: media,
-                caption: caption, 
-                contextInfo: {
-                    forwardingScore: 999,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterName: botname,
-                        newsletterJid: "120363303267333730@newsletter"
-                    }
-                }
+                video: media, // Kirim tanpa caption
             });
             reply(`✅ Video berhasil dikirim ke channel:\n📋 ID: ${formattedChannelId}`);
-        } else if (/audio/.test(mime)) {
-            const media = await m.quoted.download(); 
-            await dy.sendMessage(formattedChannelId, {
-                audio: media, 
-                mimetype: 'audio/mp4', 
-                caption: caption, 
-                contextInfo: {
-                    forwardingScore: 999,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterName: botname,
-                        newsletterJid: "120363303267333730@newsletter"
-                    }
-                }
-            });
-            reply(`✅ Audio berhasil dikirim ke channel:\n📋 ID: ${formattedChannelId}`);
         } else {
-            reply('❌ Format file tidak didukung. Hanya gambar, video, atau audio yang dapat dikirim ke channel.');
+            reply('❌ Format file tidak didukung. Hanya gambar atau video yang dapat dikirim ke channel.');
         }
     } catch (error) {
         console.error(error);
