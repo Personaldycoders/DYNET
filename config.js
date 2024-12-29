@@ -66,9 +66,7 @@ global.Scraper = {
     islamai: require('./lib/islamai'),
     Meganei: require('./lib/scrape/Meganei'),
     Vn: require('./lib/scrape/Voice.js'),
-    YTnew: require('./lib/scrape/ytdlNew'),
-    yt2mate: require('./lib/scrape/yt2mate'),
-    Ytdl: require('./lib/scrape/ytdl')
+   
 };
 
 global.media = {

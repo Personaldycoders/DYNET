@@ -26,13 +26,26 @@ const jadibot = async (dy, m, from) => {
       })
       store.bind(client[from].ev)
       
-      if (useCODE && !client[from].user && !client[from].authState.creds.registered) {
-        setTimeout(async () => {
-          code = await client[from].requestPairingCode(m.sender.split("@")[0])
-          code = code?.match(/.{1,4}/g)?.join("-") || code
-          dy.sendMessage(from, { text: `Kode Pairing @${m.sender.split("@")[0]} Adalah : ${code}\n\n*TUTORIAL*\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. "Tautkan dengan Nomor Telepon Saja"\n\n  Kode Expired dalam 20 detik\n\n*KALAU MAU STOP KETIK .stopjadibot*`, mentions: [m.sender] }, { quoted: m })
-        }, 3000)
-      }
+if (useCODE && !client[from].user && !client[from].authState.creds.registered) {
+  let isCodeActive = true; // Status aktif kode pairing
+  setTimeout(async () => {
+    if (isCodeActive) {
+      code = await client[from].requestPairingCode(m.sender.split("@")[0]);
+      code = code?.match(/.{1,4}/g)?.join("-") || code;
+      dy.sendMessage(from, {
+        text: `Kode Pairing @${m.sender.split("@")[0]} Adalah : ${code}\n\n*TUTORIAL*\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. "Tautkan dengan Nomor Telepon Saja"\n\nKode Expired dalam 20 detik\n\n*KALAU MAU STOP KETIK .stopjadibot*`,
+        mentions: [m.sender]
+      }, { quoted: m });
+
+      // Hapus kode pairing setelah 20 detik
+      setTimeout(() => {
+        isCodeActive = false; // Nonaktifkan kode pairing
+        console.log(`Kode Pairing untuk @${m.sender.split("@")[0]} telah kedaluwarsa.`);
+      }, 20000); // 20 detik
+    }
+  }, 3000);
+}
+
       
       client[from].ev.on("connection.update", async up => {
         const { lastDisconnect, connection } = up
