@@ -32,7 +32,7 @@ const { addExif, addExifAvatar } = require('./lib/exif')
 const levelling = require("./lib/levelling");
 const { createCanvas, loadImage } = require('canvas');
 const { formatSize, sleep, runtime, getBuffer, getRandom, fetchJson,generateProfilePicture, jsonformat, toRupiah, getGroupAdmins, randomNumber } = require("./lib/myfunc");
-const { tiktokslide, Animedif, searchSpotifyTracks, mediafire, rtealistic, findSongs, remini, capcut, livecharttba, chat, jarak, ssweb, tiktok, PlayStore, BukaLapak, pinterest, stickersearch, lirik } = require("./lib/scraper")
+const { tiktokslide, Animedif, searchSpotifyTracks, mediafire, rtealistic, findSongs, remini, capcut, livecharttba, chat, jarak, ssweb, tiktok, PlayStore, BukaLapak, pinterest, stickersearch, lirik, newin } = require("./lib/scraper")
 const { getAudio, getModelIdVoice } = require('./lib/scrape/Voice');
 const { YandexReverse } = require('./lib/scrape/Search'); 
 const { downloadTrack, searchSpoti } = require('./lib/spotify')
@@ -66,16 +66,77 @@ const body = (
     m.text :
   ''
 );
+
+
 const isDycoders = [dy.decodeJid(dy.user.id), ...global.rowner.map(([number]) => number), ].map((v) => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender);
 let prefix = '.';
 
 let commandnya = body.startsWith(prefix) 
     ? body.slice(1).trim().split(/ +/).shift().toLowerCase() 
     : '';
+function runtime(seconds) {
+    let hours = Math.floor(seconds / 3600);
+    let minutes = Math.floor((seconds % 3600) / 60);
+    let secondsLeft = Math.floor(seconds % 60);
+
+    return `${hours}h ${minutes}m ${secondsLeft}s`;
+}
+    
+    
+    
 //Database 
-const pendaftar = JSON.parse(fs.readFileSync('./lib/database/pendaftar.json'))
-let limitnya = db.data.users[m?.sender].limit
-let balancenya = db.data.users[m?.sender].balance
+const pendaftar = JSON.parse(fs.readFileSync('./lib/database/pendaftar.json'));
+let limitnya = db.data.users[m?.sender]?.limit || 0; 
+let balancenya = db.data.users[m?.sender]?.balance || 0;
+
+const isNumber = (value) => typeof value === 'number' && !isNaN(value);
+
+const botNumber = await dy.decodeJid(dy.user.id);
+
+if (!('autoread' in db.data.settings)) {
+    db.data.settings.autoread = false; 
+}
+if (!('autobio' in db.data.settings)) {
+    db.data.settings.autobio = false;
+}
+if (!('autoTyping' in db.data.settings)) {
+    db.data.settings.autoTyping = false;
+}
+
+if (!db.data.settings[botNumber]) {
+    db.data.settings[botNumber] = { status: 0, autobio: false, autoTyping: false }; 
+}
+
+if (!isNumber(db.data.settings[botNumber]?.status)) {
+    db.data.settings[botNumber].status = 0; 
+}
+
+dy.sendPresenceUpdate('available', m.chat);
+if (db.data.settings[botNumber].autoTyping) {
+    if (m.message) {
+        dy.sendPresenceUpdate('composing', m.chat);
+    }
+}
+
+if (!m.key.fromMe && db.data.settings.autoread) {
+    const readkey = {
+        remoteJid: m.chat,
+        id: m.key.id,
+        participant: m.isGroup ? m.key.participant : undefined
+    };
+    await dy.readMessages([readkey]);
+}
+
+if (db.data.settings[botNumber]?.autobio) {
+    let setting = db.data.settings[botNumber];
+    if (new Date() * 1 - setting.status > 1000) {
+        let uptime = await runtime(process.uptime());
+        await dy.updateProfileStatus(`✳️ dy_net By : dycoders.xyz || ✅ Runtime : ${uptime}`);
+        setting.status = new Date() * 1; 
+    }
+}
+
+
 
 const { xzeus, experiment1, zcb, rdo, rdo2, dbuz, locl, bounds, bounds2, listr, mbg, caltx, uzc, lza, paym } = require("./lib/scrape/myfunc");
 const { locm, evm, zbt, zbt2 } = require("./lib/scrape/myfunc");
@@ -108,7 +169,6 @@ const canvas = createCanvas(700, 250);
 const ctx = canvas.getContext('2d');
 const text = q = args.join(" ")
 const sender = m.key.fromMe ? (dy.user.id.split(':')[0]+'@s.whatsapp.net' || dy.user.id) : (m.key.participant || m.key.remoteJid)
-const botNumber = await dy.decodeJid(dy.user.id)
 const senderNumber = sender.split('@')[0]
 const mark = `0@s.whatsapp.net`
 const pushname = m.pushName || `${senderNumber}`
@@ -503,7 +563,22 @@ return Math.floor(Math.random() * (max - min + 1)) + min;
 return Math.floor(Math.random() * min) + 1
 }
 }
+const dyin = {key: {participant: '0@s.whatsapp.net', ...(m.chat ? {remoteJid: `status@broadcast`} : {})}, message: {locationMessage: {name: `dycoders.xyz`,jpegThumbnail: await newin(ThumbGw, 200, 200) }}}
 
+const ctt = {
+			key: {
+				remoteJid: '0@s.whatsapp.net', 
+				participant: '0@s.whatsapp.net',
+				fromMe: false,
+			},
+			message: {
+				contactMessage: {
+					displayName: (pushname),
+					vcard: `BEGIN:VCARD\nVERSION:3.0\nN:XL;${pushname},;;;\nFN:${pushname}\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`,
+				}
+			}
+		};
+		
 const fverif = {
     key: {
         fromMe: false,
@@ -647,7 +722,7 @@ async function replymenu(text) {
 
 
     await dy.sendMessage(m.chat, {
-        video: { url: "https://files.catbox.moe/hcn73t.mp4" }, 
+        video: { url: "https://files.catbox.moe/633g44.mp4" }, 
         caption: text, 
         gifPlayback: true,
         contextInfo: {
@@ -664,7 +739,7 @@ async function replymenu(text) {
                 thumbnailUrl: "https://telegra.ph/file/662564e95a8fe4c21cb33.jpg",
                 sourceUrl: `https://dycoders.xyz`,
                 mediaType: 1,
-                renderLargerThumbnail: false,
+                renderLargerThumbnail: true,
             },
         },
     }, { quoted: fverif });
@@ -1270,661 +1345,7 @@ if (chats.antilink && !m.key.fromMe && !isDycoders && !isAdmins && isBotAdmins) 
 
 //BATAS DATABASE 
 switch(command) {
-case'menu': case'dycoders': {
-await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
-        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
-        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
-        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
-        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
-        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
-        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
-        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
   
-const totalMem = os.totalmem();
-const freeMem = os.freemem();
-const usedMem = totalMem - freeMem;
-const formattedUsedMem = formatSize(usedMem);
-const more = String.fromCharCode(8206)
-const readmore = more.repeat(4001)
-const formattedTotalMem = formatSize(totalMem);
-if (args.length < 1) return replymenu(`Hi, I am dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-
-— *Info Bot*
-> Baileys: whiskeysockets
-> Developer: ${ownername}
-> Bot Name: ${botname}
-> Pendaftar: ${pendaftar.length} User
-> type: Case
-> status: SEDANG CODING
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-
-*FOR YOU ${m?.sender.split('@')[0]}*
-
-${hiasan}menu all
-${hiasan}menu owner
-${hiasan}menu main
-${hiasan}menu download
-${hiasan}menu convert
-${hiasan}menu search
-${hiasan}menu group
-${hiasan}menu game
-${hiasan}menu ai
-${hiasan}menu tools
-${hiasan}menu store
-${hiasan}menu jadibot
-${hiasan}menu cpanel
-${hiasan}menu subdomain
-
-*© dycoders.xyz*
-
-`)
-if (args[0] === "all") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Owner Menu*
-${woidy}blacklist
-${woidy}unblacklist
-${woidy}delprem [ Tag Number ]
-${woidy}addprem [ Tag Number ]
-${woidy}createredeem [ name|3 ]
-${woidy}addexp [ Tag Number ]
-${woidy}banuser [ Number ]
-${woidy}unbanuser [ Number ]
-${woidy}addbalance [ Number ]
-${woidy}addlimit [ Number ]
-${woidy}spam-pairing [ Number ]
-${woidy}addcase
-${woidy}dellcase
-${woidy}banchat
-${woidy}unbanchat
-${woidy}listprem 
-${woidy}getcase
-${woidy}sendcase
-${woidy}self
-${woidy}setreply
-${woidy}runtime
-${woidy}cls [ Reply Sticker ]
-${woidy}del [ Reply ]
-${woidy}public
-${woidy}backup
-${woidy}delsesi
-${woidy}backupdb
-${woidy}setppbot [ Send Image ]
-${woidy}setbotname
-${woidy}kirimmediachn [kirimedia to channel]
-${woidy}kirimpesanch [kirimpesan to channel]
-${woidy}cekidchannel [gunakan commanad ini di ch]
-${woidy}deposit [amount]
-${woidy}cektrx
-
-*Main Menu*
-${woidy}redeem 
-${woidy}totalfitur 
-${woidy}me
-${woidy}claim
-${woidy}bulanan
-${woidy}ping
-${woidy}saldo
-${woidy}owner [ Developer]
-${woidy}transfer
-${woidy}saving
-${woidy}report [ Kalo Fitur Eror ]
-
-*Download Menu*
-${woidy}spotifydl [ Link ]
-${woidy}soundclouddl [ Link ]
-${woidy}audio [ Reply ]
-${woidy}video [ Reply ]
-${woidy}mediafire [ Link ]
-${woidy}tiktok [ Link ]
-${woidy}autodl 
-${woidy}ytmp4 [ Link ]
-${woidy}ytmp3 [ Link ]
-${woidy}downloadapp [ Link ]
-
-*Tools Menu*
-${woidy}removebg
-${woidy}translate
-${woidy}gitclone
-${woidy}tts
-${woidy}ceknik [nik]
-${woidy}enc
-${woidy}sendemail
-${woidy}getpp [ Reply ]
-${woidy}rvo
-${woidy}ocr [ Reply Image ]
-${woidy}hentaivid [random vidio]
-${woidy}installpanel
-
-*Convert Menu*
-${woidy}smeme [ Text ]
-${woidy}sticker [ Reply Image ]
-${woidy}qc [ Text ]
-${woidy}brat [ Text ]
-${woidy}toimg [ Reply Sticker ]
-${woidy}tovn [ Reply video ]
-${woidy}tourl [ Reply Image ]
-${woidy}searchaubdo
-${woidy}remini [ Reply Image ]
-${woidy}hd [ Image ]
-${woidy}tovid [ Reply Sticker ]
-${woidy}upvidey [ Reply Video ]
-${woidy}stext [ Question ]
-
-*Search Menu*
-${woidy}play2 [ Question ]
-${woidy}play [ query ]
-${woidy}splay [ query ]
-${woidy}soundcloud [ query ]
-${woidy}searchimage [ Question ]
-${woidy}tiktoks [ Question ]
-${woidy}spotifysearch [ Judul ]
-${woidy}soundcloudsearch [ Judul ]
-${woidy}pin [ Question ]
-${woidy}bukalapak [ Question ]
-${woidy}pixiv [ Question ]
-${woidy}searchapp [ Question ]
-
-
-*Group Menu*
-${woidy}acc
-${woidy}kick [ Tag Target ]
-${woidy}opentime [ Time ]
-${woidy}closetime [ Time ]
-${woidy}promote [ Tag ]
-${woidy}demote [ Tag ]
-${woidy}antilinkv1 [ enable/disable ]
-${woidy}antipromosi [ enable/disable ]
-${woidy}welcome [ on/off ]
-${woidy}cekasalmember
-${woidy}setppgc
-${woidy}hidetag [ Pesan ]
-${woidy}creategc [ Name ]
-${woidy}setnamagc [ Name ]
-${woidy}linkgc
-
-*Game Menu*
-${woidy}casino
-${woidy}family100
-${woidy}caklontong
-${woidy}tebakgambar
-${woidy}tebakbendera
-${woidy}coin
-${woidy}slot
-${woidy}tictactoe
-${woidy}delttt
-${woidy}suit
-
-*Ai Menu*
-${woidy}askgpt [teks]
-${woidy}ai [teks]
-${woidy}opengpt [teks]
-${woidy}islamai [teks]
-${woidy}venice 
-
-*Store Menu*
-${woidy}done
-${woidy}tunda
-${woidy}batal
-${woidy}buypanel1gb - Harga ${global.panel1gb}
-${woidy}buypanel2gb - Harga ${global.panel2gb}
-${woidy}buypanel3gb - Harga ${global.panel3gb}
-${woidy}buypanel4gb - Harga ${global.panel4gb}
-${woidy}buypanel5gb - Harga ${global.panel5gb}
-${woidy}buypanel6gb - Harga ${global.panel6gb}
-${woidy}buypanel7gb - Harga ${global.panel7gb}
-${woidy}buypanelunli - Harga ${global.panelunli}
-${woidy}buyadp - Harga ${global.adminpanel}
-${woidy}buyptpanel - Harga ${global.ptpanel}
-${woidy}buyownerpanel - Harga ${global.ownerpanel}
-${woidy}joinresellerpanel - Harga ${global.hargareseller}
-
-________,,,_______________________,,,____
-
-> NOTE GUNAKAN FITUR STORE DI PRIVATE CHAT BOT
-
-
-*Jadibot Menu*
-${woidy}jadibot
-${woidy}stopjadibot
-${woidy}listjadibot
-
-*Cpanel Menu*
-${woidy}1gb
-${woidy}2gb
-${woidy}3gb
-${woidy}4gb
-${woidy}5gb
-${woidy}6gb
-${woidy}7gb
-${woidy}unli
-${woidy}listsrv
-${woidy}delsrv
-${woidy}listusr
-${woidy}delusr
-${woidy}createadmin
-${woidy}listadmin
-
-*Subdomain Menu*
-${woidy}subdomainv1 name|ip
-
-
-
-*CREATED BY*: *${global.copyright}*
-
-`)
-} if (args[0] === "owner") {
- return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Owner Menu*
-${woidy}blacklist
-${woidy}unblacklist
-${woidy}delprem [ Tag Number ]
-${woidy}addprem [ Tag Number ]
-${woidy}createredeem [ name|3 ]
-${woidy}addexp [ Tag Number ]
-${woidy}banuser [ Number ]
-${woidy}unbanuser [ Number ]
-${woidy}addbalance [ Number ]
-${woidy}addlimit [ Number ]
-${woidy}spam-pairing [ Number ]
-${woidy}addcase
-${woidy}dellcase
-${woidy}banchat
-${woidy}unbanchat
-${woidy}listprem 
-${woidy}getcase
-${woidy}sendcase
-${woidy}self
-${woidy}setreply
-${woidy}runtime
-${woidy}cls [ Reply Sticker ]
-${woidy}del [ Reply ]
-${woidy}public
-${woidy}backup
-${woidy}delsesi
-${woidy}backupdb
-${woidy}setppbot [ Send Image ]
-${woidy}setbotname
-${woidy}kirimmediachn [kirimedia to channel]
-${woidy}kirimpesanch [kirimpesan to channel]
-${woidy}cekidchannel [gunakan commanad ini di ch]
-${woidy}deposit [amount]
-${woidy}cektrx
-
-`)
-} if (args[0] === "main") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Main Menu*
-${woidy}redeem 
-${woidy}totalfitur
-${woidy}me
-${woidy}claim
-${woidy}bulanan
-${woidy}ping
-${woidy}saldo
-${woidy}owner [ Developer]
-${woidy}transfer
-${woidy}saving
-${woidy}report [ Kalo Fitur Eror ]
-`)
-} if (args[0] === "download") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Download Menu*
-${woidy}spotifydl [ Link ]
-${woidy}soundclouddl [ Link ]
-${woidy}audio [ Reply ]
-${woidy}video [ Reply ]
-${woidy}mediafire [ Link ]
-${woidy}tiktok [ Link ]
-${woidy}ytmp4 [ Link ]
-${woidy}ytmp3 [ Link ]
-${woidy}downloadapp [ Link ]
-
-
-`)
-} if (args[0] === "convert") {
- return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Convert Menu*
-${woidy}smeme [ Text ]
-${woidy}sticker [ Reply Image ]
-${woidy}qc [ Text ]
-${woidy}brat [text]
-${woidy}toimg [ Reply Sticker ]
-${woidy}tovn [ Reply video ]
-${woidy}tourl [ Reply Image ]
-${woidy}searchaubdo
-${woidy}remini [ Reply Image ]
-${woidy}hd [ Image ]
-${woidy}tovid [ Reply Sticker ]
-${woidy}upvidey [ Reply Video ]
-${woidy}stext [ Question ]
-`)
-} if (args[0] === "search") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Search Menu*
-${woidy}play2 [ Question ]
-${woidy}play [ query ]
-${woidy}splay [ Question ]
-${woidy}soundcloud [ Question ]
-${woidy}gimage [ Question ]
-${woidy}tiktoks [ Question ]
-${woidy}spotifysearch [ Judul ]
-${woidy}soundcloudsearch [ Judul ]
-${woidy}pin [ Question ]
-${woidy}bukalapak [ Question ]
-${woidy}pixiv [ Question ]
-${woidy}searchapp [ Question ]
-
-
-`)
-} if (args[0] === "group") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Group Menu*
-${woidy}acc
-${woidy}kick [ Tag Target ]
-${woidy}opentime [ Time ]
-${woidy}closetime [ Time ]
-${woidy}promote [ Tag ]
-${woidy}demote [ Tag ]
-${woidy}antilinkv1 [ enable/disable ]
-${woidy}welcome [ on/off ]
-${woidy}cekasalmember
-${woidy}setppgc
-${woidy}antipromosi enable/disable
-${woidy}hidetag [ Pesan ]
-${woidy}creategc [ Name ]
-${woidy}setnamagc [ Name ]
-${woidy}linkgc
-`)
-} if (args[0] === "game") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Game Menu*
-${woidy}casino
-${woidy}family100
-${woidy}caklontong
-${woidy}tebakgambar
-${woidy}tebakbendera
-${woidy}coin
-${woidy}slot
-${woidy}tictactoe
-${woidy}delttt
-${woidy}suit
-`)
-} if (args[0] === "ai") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*menu ai*
-${woidy}askgpt [text]
-${woidy}ai [text]
-${woidy}opengpt [text]
-${woidy}islamai [text]
-${woidy}venice
-
-`)
-} if (args[0] === "store") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Store Menu*
-${woidy}done
-${woidy}tunda
-${woidy}batal
-${woidy}buypanel1gb - Harga ${global.panel1gb}
-${woidy}buypanel2gb - Harga ${global.panel2gb}
-${woidy}buypanel3gb - Harga ${global.panel3gb}
-${woidy}buypanel4gb - Harga ${global.panel4gb}
-${woidy}buypanel5gb - Harga ${global.panel5gb}
-${woidy}buypanel6gb - Harga ${global.panel6gb}
-${woidy}buypanel7gb - Harga ${global.panel7gb}
-${woidy}buypanelunli - Harga ${global.panelunli}
-${woidy}buyadp - Harga ${global.adminpanel}
-${woidy}buyptpanel - Harga ${global.ptpanel}
-${woidy}buyownerpanel - Harga ${global.ownerpanel}
-${woidy}joinresellerpanel - Harga ${global.hargareseller}
-
-________,,,_______________________,,,___
-
-
-> NOTE GUNAKAN FITUR STORE DI PRIVATE CHAT BOT
-
-
-
-`)
-} if (args[0] === "tools") {
- return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Tools Menu*
-${woidy}removebg
-${woidy}translate
-${woidy}gitclone
-${woidy}tts
-${woidy}ceknik [nik]
-${woidy}enc
-${woidy}sendemail
-${woidy}getpp [ Reply ]
-${woidy}rvo
-${woidy}ocr [ Reply Image ]
-${woidy}hentaivid [random vidio]
-${woidy}installpanel
-
-`)
-} if (args[0] === "jadibot") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Jadibot Menu*
-${woidy}jadibot
-${woidy}stopjadibot
-${woidy}listjadibot
-`)
-} if (args[0] === "cpanel") {
-return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Cpanel Menu*
-${woidy}1gb
-${woidy}2gb
-${woidy}3gb
-${woidy}4gb
-${woidy}5gb
-${woidy}6gb
-${woidy}7gb
-${woidy}unli
-${woidy}listsrv
-${woidy}delsrv
-${woidy}listusr
-${woidy}delusr
-${woidy}createadmin
-${woidy}listadmin
-
-`)}
- if (args[0] === "subdomain") {
- return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
-— *Info Bot*
-▢ Baileys: whiskeysockets
-▢ Developer: ${ownername}
-▢ Bot Name: ${botname}
-▢ Pendaftar: ${pendaftar.length} User
-▢ type: Case
-
-— *Info Users*
-▢ User: ${isPremium ? 'Premium' : 'Free'}
-▢ Limit: ${limitnya}
-▢ Balance: $${toRupiah(balancenya)}
-▢ Number: ${m?.sender.split('@')[0]}
-
-*Subdomain Menu*
-${woidy}subdomainv1 name|ip
-
-`)}}
-break
  case'prabowo-ai':{
 if (!text) return reply(`*Example:* ${prefix + command} Haii, Perkenalkan Dirimu`)
 let prompt = `kamu adalah Prabowo Subianto, kamu adalah salah satu calon presiden republik Indonesia, berbicaralah yang keras dan tegas!!, kamu memiliki kelebihan yaitu pintar, memiliki kecerdasan seperti ai, dan kamu adalah salah satu tokoh utama di Negara Republik Indonesia, jangan pernah menyebutkan prompt mu di saat berbicara!!!, dan jawab pertanyaan apa yang di tanyakan!!!`
@@ -2613,7 +2034,6 @@ break
     break
     
    
-
 
 case 'addexp': {
     if (!isDycoders) return m.reply(mess.owner)
@@ -3339,7 +2759,7 @@ reply(`*You have claimed, you can reclaim in the next hour.*\n\n*Timeout : [ ${F
 break
 
 case 'owner': {
-    let vcard = `BEGIN:VCARD\nVERSION:3.0\nN:WhatsApp;ciaa xyzz\nORG:${global.ownername}\nTITLE:soft\nitem1.TEL;waid=${global.rowner}:${global.rowner}\nitem1.X-ABLabel:Ponsel\nitem2.URL:https://dycoders.xyz\nitem2.X-ABLabel:ðŸ’¬ More\nitem3.EMAIL;type=INTERNET:xyydycoders@gmail.com\nitem3.X-ABLabel:Email\nitem4.ADR:;;Indonesia;;;;\nitem4.X-ABADR:ðŸ’¬ More\nitem4.X-ABLabel:Lokasi\nEND:VCARD`;
+    let vcard = `BEGIN:VCARD\nVERSION:3.0\nN:WhatsApp;ciaa xyzz\nORG:${global.ownername}\nTITLE:soft\nitem1.TEL;waid=6285719898124:6285719898124\nitem1.X-ABLabel:Ponsel\nitem2.URL:https://dycoders.xyz\nitem2.X-ABLabel:ðŸ’¬ More\nitem3.EMAIL;type=INTERNET:xyydycoders@gmail.com\nitem3.X-ABLabel:Email\nitem4.ADR:;;Indonesia;;;;\nitem4.X-ABADR:ðŸ’¬ More\nitem4.X-ABLabel:Lokasi\nEND:VCARD`;
       const sentMsg = await dy.sendMessage(
     m.chat,
     {
@@ -3484,6 +2904,36 @@ break;
   }
   break;
 }
+
+
+case 'zptv': {
+    try {
+        if (!/video/.test(mime)) return reply('Invalid media. Harap balas sebuah video!');
+        if (!m.quoted.seconds > 30) return reply('Durasi maksimal adalah 30 detik!');
+
+        hjhj = text ? text : from; 
+        const msg = await require('@whiskeysockets/baileys').generateWAMessageContent({
+            video: await m.quoted.download(),
+        }, {
+            upload: dy.waUploadToServer,
+        });
+
+     
+        await dy.relayMessage(hjhj, {
+            ptvMessage: msg.videoMessage, 
+        }, {});
+
+   
+    } catch (error) {
+        console.error(error);
+        reply('Terjadi kesalahan saat memproses video.');
+    }
+    break;
+}
+
+
+
+
 
 case 'tiktok': {
     if (!text) return m.reply('Masukkan URL TikTok!');
@@ -3994,6 +3444,20 @@ case 'stickersearch': {
     }
 }
 break;
+case 'autoread':
+    if (!isDycoders) return m.reply('Fitur ini hanya untuk admin bot.');
+
+    const status = args[0]?.toLowerCase();
+    if (status === 'on') {
+        db.data.settings.autoread = true;
+        m.reply('Fitur auto-read telah diaktifkan.');
+    } else if (status === 'off') {
+        db.data.settings.autoread = false;
+        m.reply('Fitur auto-read telah dinonaktifkan.');
+    } else {
+        m.reply('Gunakan perintah:\n.autoread on - untuk mengaktifkan\n.autoread off - untuk menonaktifkan');
+    }
+    break;
 
 
 
@@ -6809,17 +6273,35 @@ case 'smeme': {
     dy.sendImageAsSticker(m.chat, meme, m, { packname: packname, author: author })
     }
     break
-
 case 'qc': {
-		let teks = text ? text : m.quoted && m.quoted.text ? m.quoted.text : m.text;
-		if (!teks) return reply(`Example: ${prefix + command} <Reply/Input Text>`);
-		const res = await Scraper.Convert.quote(teks, ppuser, pushname)
-		dy.sendImageAsSticker(m.chat, res, m, {
-        packname: `${global.packname}`,
-        author: `${global.author}`
-    })
+  if (limitnya < 1) return m.reply(mess.limit)
+    try {
+     
+        let teks = text ? text : m.quoted && m.quoted.text ? m.quoted.text : m.text;
+        if (!teks) return reply(`Example: ${prefix + command} <Reply/Input Text>`);
+
+      
+        let ppuser;
+        try {
+            ppuser = await dy.profilePictureUrl(m.sender, 'image');
+        } catch {
+            ppuser = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'; 
+        }
+
+       
+        const res = await Scraper.Convert.quote(teks, ppuser, pushname);
+        await dy.sendImageAsSticker(m.chat, res, m, {
+            packname: `${global.packname}`,
+            author: `${global.author}`
+        });
+    } catch (err) {
+        console.error(err);
+        reply('Terjadi kesalahan saat membuat sticker.');
     }
-    break
+    uselimit()
+    break;
+}
+
     
 case 'tovn': {
 if (limitnya < 1) return m.reply(mess.limit)
@@ -7051,70 +6533,9 @@ case "imgurl":
     break;
 
 
-    
-
-async function imagetohd(imageBuffer) {
-    const formData = new FormData();
-    formData.append('image', imageBuffer, {
-        filename: 'upload.png',
-        contentType: 'image/png',
-    });
-
-    const response = await axios.post(
-        'https://www.videotok.app/api/free-restore-image',
-        formData,
-        {
-            headers: {
-                ...formData.getHeaders(),
-            },
-        }
-    );
-
-    const { imageUrl } = response.data;
-    return imageUrl;
-}
-
-case 'hd': {
-    if (!quoted) return reply("Reply gambar yang ingin diubah menjadi HD.");
-    if (!/image/.test(mime)) return reply(`Fitur ini hanya mendukung gambar.`);
-
- 
-    const wait = await dy.sendMessage(m.chat, {
-        text: `_Wait.. 🔍_`
-    }, { quoted: fverif });
-
-   
-    let media = await quoted.download();
-
-  
-    let resultUrl = await imagetohd(media);
-
- 
-    await dy.sendMessage(m.chat, {
-        text: `_Mengirim hasil.. 🔄_`,
-        edit: wait.key
-    }, { quoted: fverif });
-
-   
-    await dy.sendMessage(m.chat, {
-        image: {
-            url: resultUrl,
-        },
-        caption: 'SELESAI ✅',
-    }, { quoted: fverif });
-
- 
-    dy.sendMessage(m.chat, {
-        react: {
-            text: '✨',
-            key: m.key
-        }
-    });
-    break;
-}
 
 
-case 'remini':{
+case 'remini': case 'hd': {
 if (limitnya < 1) return m.reply(mess.limit)
 dy.enhancer = dy.enhancer ? dy.enhancer : {};
 if (m.sender in dy.enhancer)
@@ -8140,11 +7561,18 @@ case 'ocr': {
        }
       }
       break
-
 case 'getpp': {
-    dy.sendImage(m.chat, ppuser, mess.success, m)
+    try {
+        // Mendapatkan URL profile picture
+        const ppuser = await dy.profilePictureUrl(m.sender, 'image');
+        dy.sendImage(m.chat, ppuser, 'Berikut adalah foto profil Anda:', m);
+    } catch (err) {
+        // Jika tidak ada profile picture
+        const defaultPP = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60';
+        dy.sendImage(m.chat, defaultPP, 'Kamu belum memiliki foto profil.', m);
     }
-    break
+    break;
+}
 
 case 'enc': {
     if (!text) return reply(`Contoh ${prefix+command} const adrian = require('adrian-api')`)
@@ -8197,6 +7625,21 @@ case 'tourl': {
     }
 }
 break;
+
+case "shortlink": case "shorturl": {
+if (!text) return reply(".shortlink https://example.com")
+if (!isUrl(text)) return reply(".shortlink https://example.com")
+var res = await axios.get('https://tinyurl.com/api-create.php?url='+encodeURIComponent(text))
+var link = `
+* *Shortlink by tinyurl.com*
+${res.data.toString()}
+`
+return m.reply(link)
+}
+break
+
+
+
 
 
 case 'git': case 'gitclone': {
@@ -10129,8 +9572,884 @@ if (!isDycoders) return reply(mess.owner)
     }
 }
 break;
+case 'autobio':
+    if (!isDycoders) return m.reply('Fitur ini hanya untuk admin bot.');
+
+    const autobioStatus = args[0]?.toLowerCase();
+    if (autobioStatus === 'on') {
+        db.data.settings[botNumber].autobio = true;
+        m.reply('Fitur autobio telah diaktifkan.');
+    } else if (autobioStatus === 'off') {
+        db.data.settings[botNumber].autobio = false;
+        m.reply('Fitur autobio telah dinonaktifkan.');
+    } else {
+        m.reply('Gunakan perintah:\n.autobio on - untuk mengaktifkan\n.autobio off - untuk menonaktifkan');
+    }
+    break;
+    
+    case 'autotyping':
+    if (!isDycoders) return m.reply('Fitur ini hanya untuk admin bot.');
+
+    const autoTypingStatus = args[0]?.toLowerCase();
+    if (autoTypingStatus === 'on') {
+        db.data.settings[botNumber].autoTyping = true;
+        m.reply('Fitur autoTyping telah diaktifkan.');
+    } else if (autoTypingStatus === 'off') {
+        db.data.settings[botNumber].autoTyping = false;
+        m.reply('Fitur autoTyping telah dinonaktifkan.');
+    } else {
+        m.reply('Gunakan perintah:\n.autotext on - untuk mengaktifkan\n.autotext off - untuk menonaktifkan');
+    }
+    break;
 
 
+case 'menu': case'dycoders': {
+await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⌛', key: m.key } })
+        await dy.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
+  'Ketik .help untuk melihat menu lain nya'
+  
+  
+const totalMem = os.totalmem();
+const freeMem = os.freemem();
+const usedMem = totalMem - freeMem;
+const formattedUsedMem = formatSize(usedMem);
+const more = String.fromCharCode(8206)
+const readmore = more.repeat(4001)
+const formattedTotalMem = formatSize(totalMem);
+
+if (args[0] === "all") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Owner Menu*
+${woidy}blacklist
+${woidy}unblacklist
+${woidy}delprem [ Tag Number ]
+${woidy}addprem [ Tag Number ]
+${woidy}createredeem [ name|3 ]
+${woidy}addexp [ Tag Number ]
+${woidy}banuser [ Number ]
+${woidy}unbanuser [ Number ]
+${woidy}addbalance [ Number ]
+${woidy}addlimit [ Number ]
+${woidy}spam-pairing [ Number ]
+${woidy}addcase
+${woidy}dellcase
+${woidy}banchat
+${woidy}unbanchat
+${woidy}listprem 
+${woidy}getcase
+${woidy}sendcase
+${woidy}self
+${woidy}setreply
+${woidy}runtime
+${woidy}cls [ Reply Sticker ]
+${woidy}del [ Reply ]
+${woidy}public
+${woidy}backup
+${woidy}delsesi
+${woidy}backupdb
+${woidy}setppbot [ Send Image ]
+${woidy}setbotname
+${woidy}kirimmediachn [kirimedia to channel]
+${woidy}kirimpesanch [kirimpesan to channel]
+${woidy}cekidchannel [gunakan commanad ini di ch]
+${woidy}deposit [amount]
+${woidy}cektrx
+${woidy}autoread on/off
+${woidy}autotyping on/off
+${woidy}autobio on/off
+${woidy}spam-ngl
+
+*Main Menu*
+${woidy}redeem 
+${woidy}totalfitur 
+${woidy}me
+${woidy}claim
+${woidy}bulanan
+${woidy}ping
+${woidy}saldo
+${woidy}owner [ Developer]
+${woidy}transfer
+${woidy}saving
+${woidy}report [ Kalo Fitur Eror ]
+
+*Download Menu*
+${woidy}spotifydl [ Link ]
+${woidy}soundclouddl [ Link ]
+${woidy}audio [ Reply ]
+${woidy}video [ Reply ]
+${woidy}mediafire [ Link ]
+${woidy}tiktok [ Link ]
+${woidy}autodl 
+${woidy}ytmp4 [ Link ]
+${woidy}ytmp3 [ Link ]
+${woidy}downloadapp [ Link ]
+
+*Tools Menu*
+${woidy}removebg
+${woidy}translate
+${woidy}gitclone
+${woidy}tts
+${woidy}ceknik [nik]
+${woidy}enc
+${woidy}sendemail
+${woidy}getpp [ Reply ]
+${woidy}rvo
+${woidy}ocr [ Reply Image ]
+${woidy}hentaivid [random vidio]
+${woidy}installpanel
+${woidy}shortlink
+
+
+*Convert Menu*
+${woidy}smeme [ Text ]
+${woidy}sticker [ Reply Image ]
+${woidy}qc [ Text ]
+${woidy}brat [ Text ]
+${woidy}toimg [ Reply Sticker ]
+${woidy}tovn [ Reply video ]
+${woidy}tourl [ Reply Image ]
+${woidy}searchaubdo
+${woidy}remini [ Reply Image ]
+${woidy}hd [ Image ]
+${woidy}tovid [ Reply Sticker ]
+${woidy}upvidey [ Reply Video ]
+${woidy}stext [ Question ]
+
+*Search Menu*
+${woidy}play2 [ Question ]
+${woidy}play [ query ]
+${woidy}splay [ query ]
+${woidy}soundcloud [ query ]
+${woidy}searchimage [ Question ]
+${woidy}tiktoks [ Question ]
+${woidy}spotifysearch [ Judul ]
+${woidy}soundcloudsearch [ Judul ]
+${woidy}pin [ Question ]
+${woidy}bukalapak [ Question ]
+${woidy}pixiv [ Question ]
+${woidy}searchapp [ Question ]
+
+
+*Group Menu*
+${woidy}acc
+${woidy}kick [ Tag Target ]
+${woidy}opentime [ Time ]
+${woidy}closetime [ Time ]
+${woidy}promote [ Tag ]
+${woidy}demote [ Tag ]
+${woidy}antilinkv1 [ enable/disable ]
+${woidy}antipromosi [ enable/disable ]
+${woidy}welcome [ on/off ]
+${woidy}cekasalmember
+${woidy}setppgc
+${woidy}hidetag [ Pesan ]
+${woidy}creategc [ Name ]
+${woidy}setnamagc [ Name ]
+${woidy}linkgc
+
+*Game Menu*
+${woidy}casino
+${woidy}family100
+${woidy}caklontong
+${woidy}tebakgambar
+${woidy}tebakbendera
+${woidy}coin
+${woidy}slot
+${woidy}tictactoe
+${woidy}delttt
+${woidy}suit
+
+*Ai Menu*
+${woidy}askgpt [teks]
+${woidy}ai [teks]
+${woidy}opengpt [teks]
+${woidy}islamai [teks]
+${woidy}venice 
+
+*Store Menu*
+${woidy}done
+${woidy}tunda
+${woidy}batal
+${woidy}buypanel1gb - Harga ${global.panel1gb}
+${woidy}buypanel2gb - Harga ${global.panel2gb}
+${woidy}buypanel3gb - Harga ${global.panel3gb}
+${woidy}buypanel4gb - Harga ${global.panel4gb}
+${woidy}buypanel5gb - Harga ${global.panel5gb}
+${woidy}buypanel6gb - Harga ${global.panel6gb}
+${woidy}buypanel7gb - Harga ${global.panel7gb}
+${woidy}buypanelunli - Harga ${global.panelunli}
+${woidy}buyadp - Harga ${global.adminpanel}
+${woidy}buyptpanel - Harga ${global.ptpanel}
+${woidy}buyownerpanel - Harga ${global.ownerpanel}
+${woidy}joinresellerpanel - Harga ${global.hargareseller}
+
+________,,,_______________________,,,____
+
+> NOTE GUNAKAN FITUR STORE DI PRIVATE CHAT BOT
+
+
+*Jadibot Menu*
+${woidy}jadibot
+${woidy}stopjadibot
+${woidy}listjadibot
+
+*Cpanel Menu*
+${woidy}1gb
+${woidy}2gb
+${woidy}3gb
+${woidy}4gb
+${woidy}5gb
+${woidy}6gb
+${woidy}7gb
+${woidy}unli
+${woidy}listsrv
+${woidy}delsrv
+${woidy}listusr
+${woidy}delusr
+${woidy}createadmin
+${woidy}listadmin
+
+*Subdomain Menu*
+${woidy}subdomainv1 name|ip
+
+
+
+*CREATED BY*: *${global.copyright}*
+
+`)
+} if (args[0] === "owner") {
+ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Owner Menu*
+${woidy}blacklist
+${woidy}unblacklist
+${woidy}delprem [ Tag Number ]
+${woidy}addprem [ Tag Number ]
+${woidy}createredeem [ name|3 ]
+${woidy}addexp [ Tag Number ]
+${woidy}banuser [ Number ]
+${woidy}unbanuser [ Number ]
+${woidy}addbalance [ Number ]
+${woidy}addlimit [ Number ]
+${woidy}spam-pairing [ Number ]
+${woidy}addcase
+${woidy}dellcase
+${woidy}banchat
+${woidy}unbanchat
+${woidy}listprem 
+${woidy}getcase
+${woidy}sendcase
+${woidy}self
+${woidy}setreply
+${woidy}runtime
+${woidy}cls [ Reply Sticker ]
+${woidy}del [ Reply ]
+${woidy}public
+${woidy}backup
+${woidy}delsesi
+${woidy}backupdb
+${woidy}setppbot [ Send Image ]
+${woidy}setbotname
+${woidy}kirimmediachn [kirimedia to channel]
+${woidy}kirimpesanch [kirimpesan to channel]
+${woidy}cekidchannel [gunakan commanad ini di ch]
+${woidy}deposit [amount]
+${woidy}cektrx
+${woidy}autoread on/off
+${woidy}autotyping on/off
+${woidy}autobio on/off
+${woidy}spam-ngl
+
+
+
+`)
+} if (args[0] === "main") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Main Menu*
+${woidy}redeem 
+${woidy}totalfitur
+${woidy}me
+${woidy}claim
+${woidy}bulanan
+${woidy}ping
+${woidy}saldo
+${woidy}owner [ Developer]
+${woidy}transfer
+${woidy}saving
+${woidy}report [ Kalo Fitur Eror ]
+`)
+} if (args[0] === "download") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Download Menu*
+${woidy}spotifydl [ Link ]
+${woidy}soundclouddl [ Link ]
+${woidy}audio [ Reply ]
+${woidy}video [ Reply ]
+${woidy}mediafire [ Link ]
+${woidy}tiktok [ Link ]
+${woidy}ytmp4 [ Link ]
+${woidy}ytmp3 [ Link ]
+${woidy}downloadapp [ Link ]
+
+
+`)
+} if (args[0] === "convert") {
+ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Convert Menu*
+${woidy}smeme [ Text ]
+${woidy}sticker [ Reply Image ]
+${woidy}qc [ Text ]
+${woidy}brat [text]
+${woidy}toimg [ Reply Sticker ]
+${woidy}tovn [ Reply video ]
+${woidy}tourl [ Reply Image ]
+${woidy}searchaubdo
+${woidy}remini [ Reply Image ]
+${woidy}hd [ Image ]
+${woidy}tovid [ Reply Sticker ]
+${woidy}upvidey [ Reply Video ]
+${woidy}stext [ Question ]
+`)
+} if (args[0] === "search") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Search Menu*
+${woidy}play2 [ Question ]
+${woidy}play [ query ]
+${woidy}splay [ Question ]
+${woidy}soundcloud [ Question ]
+${woidy}gimage [ Question ]
+${woidy}tiktoks [ Question ]
+${woidy}spotifysearch [ Judul ]
+${woidy}soundcloudsearch [ Judul ]
+${woidy}pin [ Question ]
+${woidy}bukalapak [ Question ]
+${woidy}pixiv [ Question ]
+${woidy}searchapp [ Question ]
+
+
+`)
+} if (args[0] === "group") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Group Menu*
+${woidy}acc
+${woidy}kick [ Tag Target ]
+${woidy}opentime [ Time ]
+${woidy}closetime [ Time ]
+${woidy}promote [ Tag ]
+${woidy}demote [ Tag ]
+${woidy}antilinkv1 [ enable/disable ]
+${woidy}welcome [ on/off ]
+${woidy}cekasalmember
+${woidy}setppgc
+${woidy}antipromosi enable/disable
+${woidy}hidetag [ Pesan ]
+${woidy}creategc [ Name ]
+${woidy}setnamagc [ Name ]
+${woidy}linkgc
+`)
+} if (args[0] === "game") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Game Menu*
+${woidy}casino
+${woidy}family100
+${woidy}caklontong
+${woidy}tebakgambar
+${woidy}tebakbendera
+${woidy}coin
+${woidy}slot
+${woidy}tictactoe
+${woidy}delttt
+${woidy}suit
+`)
+} if (args[0] === "ai") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*menu ai*
+${woidy}askgpt [text]
+${woidy}ai [text]
+${woidy}opengpt [text]
+${woidy}islamai [text]
+${woidy}venice
+
+`)
+} if (args[0] === "store") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Store Menu*
+${woidy}done
+${woidy}tunda
+${woidy}batal
+${woidy}buypanel1gb - Harga ${global.panel1gb}
+${woidy}buypanel2gb - Harga ${global.panel2gb}
+${woidy}buypanel3gb - Harga ${global.panel3gb}
+${woidy}buypanel4gb - Harga ${global.panel4gb}
+${woidy}buypanel5gb - Harga ${global.panel5gb}
+${woidy}buypanel6gb - Harga ${global.panel6gb}
+${woidy}buypanel7gb - Harga ${global.panel7gb}
+${woidy}buypanelunli - Harga ${global.panelunli}
+${woidy}buyadp - Harga ${global.adminpanel}
+${woidy}buyptpanel - Harga ${global.ptpanel}
+${woidy}buyownerpanel - Harga ${global.ownerpanel}
+${woidy}joinresellerpanel - Harga ${global.hargareseller}
+
+________,,,_______________________,,,___
+
+
+> NOTE GUNAKAN FITUR STORE DI PRIVATE CHAT BOT
+
+
+
+`)
+} if (args[0] === "tools") {
+ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Tools Menu*
+${woidy}removebg
+${woidy}translate
+${woidy}gitclone
+${woidy}tts
+${woidy}ceknik [nik]
+${woidy}enc
+${woidy}sendemail
+${woidy}getpp [ Reply ]
+${woidy}rvo
+${woidy}ocr [ Reply Image ]
+${woidy}hentaivid [random vidio]
+${woidy}installpanel
+${woidy}shortlink
+
+`)
+} if (args[0] === "jadibot") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Jadibot Menu*
+${woidy}jadibot
+${woidy}stopjadibot
+${woidy}listjadibot
+`)
+} if (args[0] === "cpanel") {
+return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Cpanel Menu*
+${woidy}1gb
+${woidy}2gb
+${woidy}3gb
+${woidy}4gb
+${woidy}5gb
+${woidy}6gb
+${woidy}7gb
+${woidy}unli
+${woidy}listsrv
+${woidy}delsrv
+${woidy}listusr
+${woidy}delusr
+${woidy}createadmin
+${woidy}listadmin
+
+`)}
+ if (args[0] === "subdomain") {
+ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
+— *Info Bot*
+▢ Baileys: whiskeysockets
+▢ Developer: ${ownername}
+▢ Bot Name: ${botname}
+▢ Pendaftar: ${pendaftar.length} User
+▢ type: Case
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+*Subdomain Menu*
+${woidy}subdomainv1 name|ip
+
+`)}}
+break
+case 'clearchat': {
+pee = "\n".repeat(400)
+reply(pee + '😁🖕')
+}
+break
+
+
+case 'help': {
+
+await dy.sendMessage(m.chat, {
+          react: {
+            text: '⏳',
+            key: m.key,
+          }})
+          await dy.sendMessage(m.chat, {
+          react: {
+            text: '3️⃣',
+            key: m.key,
+          }})
+await dy.sendMessage(m.chat, {
+          react: {
+            text: '2️⃣',
+            key: m.key,
+          }})
+await dy.sendMessage(m.chat, {
+          react: {
+            text: '1️⃣',
+            key: m.key,
+          }})
+          await dy.sendMessage(m.chat, {
+          react: {
+            text: '✅',
+            key: m.key,
+          }});
+	let mgmenu = await prepareWAMessageMedia({ image: ThumbGw }, { upload: dy.waUploadToServer })
+	const msgii = await generateWAMessageFromContent(m.chat, {
+	viewOnceMessageV2Extension: {
+	message: {
+	messageContextInfo: {
+	deviceListMetadata: {},
+	deviceListMetadataVersion: 2
+	}, interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+	body: proto.Message.InteractiveMessage.Body.fromObject({
+	text: "BOT BY dycoders.xyz"
+	}),
+	carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
+	cards: [{
+	body: proto.Message.InteractiveMessage.Body.fromObject({
+				  }),
+				  footer: proto.Message.InteractiveMessage.Footer.fromObject({
+				  }),
+				  header: proto.Message.InteractiveMessage.Header.fromObject({
+					title: ` 
+Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you. \n
+— *Info Bot*
+> Baileys: whiskeysockets
+> Developer: ${ownername}
+> Bot Name: ${botname}
+> Pendaftar: ${pendaftar.length} User
+> type: Case
+> status: SEDANG CODING
+
+— *Info Users*
+▢ User: ${isPremium ? 'Premium' : 'Free'}
+▢ Limit: ${limitnya}
+▢ Balance: $${toRupiah(balancenya)}
+▢ Number: ${m?.sender.split('@')[0]}
+
+
+*FOR YOU ${m?.sender.split('@')[0]}*
+
+${hiasan}menu all
+${hiasan}menu owner
+${hiasan}menu main
+${hiasan}menu download
+${hiasan}menu convert
+${hiasan}menu search
+${hiasan}menu group
+${hiasan}menu game
+${hiasan}menu ai
+${hiasan}menu tools
+${hiasan}menu store
+${hiasan}menu jadibot
+${hiasan}menu cpanel
+${hiasan}menu subdomain
+
+*© dycoders.xyz*
+		`,
+					hasMediaAttachment: true,...(await prepareWAMessageMedia({ image: ThumbGw }, { upload: dy.waUploadToServer }))
+				  }),
+	nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+	buttons: [
+	      {
+	"name": "cta_url",
+	"buttonParamsJson": `{\"display_text\":\"INFO DEV\",\"url\":\"https://dycoders.xyz\",\"merchant_url\":\"https://www.google.com\"}`
+	},
+    {
+	"name": "cta_url",
+	"buttonParamsJson": `{\"display_text\":\"CHATOWNER\",\"url\":\"https://wa.me/6285719898124\",\"merchant_url\":\"https://www.google.com\"}`
+	}]
+	})
+	}
+	]
+	})
+	})}
+	}}, {userJid: m.sender, quoted: ctt})
+	await dy.relayMessage(m.chat, msgii.message, {messageId: msgii.key.id})
+	}
+	break
+
+
+
+case 'boom-ngl': 
+case 'spam-ngl': {
+    if (!isDycoders) return m.reply('Anda tidak memiliki izin untuk menggunakan perintah ini.');
+
+    
+    console.log("Input awal:", text);
+
+   
+    if (!text || typeof text !== "string") {
+        return m.reply("Input tidak valid. Harap masukkan teks dengan format: `username|message|jumlah`.");
+    }
+
+    if (!text.includes("|")) {
+        return m.reply("Format input salah. Gunakan format: `username|message|jumlah`.");
+    }
+
+    let [username, message, jumlah = 500] = text.split("|");
+
+
+    if (!username || !message) {
+        return m.reply("*Username* dan *Message* diperlukan. Gunakan format: `username|message|jumlah`.");
+    }
+
+    jumlah = parseInt(jumlah);
+    if (isNaN(jumlah) || jumlah <= 0) {
+        return m.reply("Jumlah tidak valid. Masukkan angka positif.");
+    }
+
+    let counter = 0;
+
+    const sendMessage = async (username, message) => {
+        while (counter < jumlah) {
+            try {
+                const date = new Date();
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const formattedDate = `${hours}:${minutes}`;
+
+                const deviceId = crypto.randomBytes(21).toString("hex");
+                const url = "https://ngl.link/api/submit";
+
+                const headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0",
+                    "Accept": "*/*",
+                    "Accept-Language": "en-US,en;q=0.5",
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Sec-Fetch-Dest": "empty",
+                    "Sec-Fetch-Mode": "cors",
+                    "Sec-Fetch-Site": "same-origin",
+                    "Referer": `https://ngl.link/${username}`,
+                    "Origin": "https://ngl.link"
+                };
+
+                const body = `username=${username}&question=${message}&deviceId=${deviceId}&gameSlug=&referrer=`;
+
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers,
+                    body,
+                    mode: "cors",
+                    credentials: "include"
+                });
+
+                if (response.status !== 200) {
+                    console.log(`[${formattedDate}] [Err] Ratelimited`);
+                    await new Promise(resolve => setTimeout(resolve, 25000));
+                } else {
+                    counter++;
+                    console.log(`[${formattedDate}] [Msg] Sent: ${counter}`);
+                }
+            } catch (error) {
+                console.error(`[${formattedDate}] [Err] ${error.message}`);
+                await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+        }
+
+        m.reply(`✅ Pesan telah berhasil dikirim sebanyak ${counter} kali ke username *${username}*`);
+    };
+
+    sendMessage(username, message).catch(err => {
+        console.error("Unhandled error:", err);
+        m.reply("Terjadi kesalahan saat mengirim pesan.");
+    });
+}
+break;
+case "cekidch": {
+if (!text) return reply(" Mana Link CH Nya ")
+if (!text.includes("https://whatsapp.com/channel/")) return reply("Link tautan tidak valid")
+let result = text.split('https://whatsapp.com/channel/')[1]
+let res = await dy.newsletterMetadata("invite", result)
+let teks = `
+* *ID :* ${res.id}
+* *Nama :* ${res.name}
+* *Total Pengikut :* ${res.subscribers}
+* *Status :* ${res.state}
+* *Verified :* ${res.verification == "VERIFIED" ? "Terverifikasi" : "Tidak"}
+`
+return m.reply(teks)
+}
+break
 
 
 default:
