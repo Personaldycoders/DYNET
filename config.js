@@ -12,7 +12,7 @@ global.idch = "120363303267333730@newsletter"
 
 
 global.dycoders = '>.'
-global.woidy = '->.'
+global.dyganteng = '->.'
 global.hiasan = '> .'
 global.hiasanB = '╭─ •'
 global.hiasanA = '╰──── •'

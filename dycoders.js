@@ -9621,168 +9621,168 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Owner Menu*
-${woidy}blacklist
-${woidy}unblacklist
-${woidy}delprem [ Tag Number ]
-${woidy}addprem [ Tag Number ]
-${woidy}createredeem [ name|3 ]
-${woidy}addexp [ Tag Number ]
-${woidy}banuser [ Number ]
-${woidy}unbanuser [ Number ]
-${woidy}addbalance [ Number ]
-${woidy}addlimit [ Number ]
-${woidy}spam-pairing [ Number ]
-${woidy}addcase
-${woidy}dellcase
-${woidy}banchat
-${woidy}unbanchat
-${woidy}listprem 
-${woidy}getcase
-${woidy}sendcase
-${woidy}self
-${woidy}setreply
-${woidy}runtime
-${woidy}cls [ Reply Sticker ]
-${woidy}del [ Reply ]
-${woidy}public
-${woidy}backup
-${woidy}delsesi
-${woidy}backupdb
-${woidy}setppbot [ Send Image ]
-${woidy}setbotname
-${woidy}kirimmediachn [kirimedia to channel]
-${woidy}kirimpesanch [kirimpesan to channel]
-${woidy}cekidchannel [gunakan commanad ini di ch]
-${woidy}deposit [amount]
-${woidy}cektrx
-${woidy}autoread on/off
-${woidy}autotyping on/off
-${woidy}autobio on/off
-${woidy}spam-ngl
+${dyganteng}blacklist
+${dyganteng}unblacklist
+${dyganteng}delprem [ Tag Number ]
+${dyganteng}addprem [ Tag Number ]
+${dyganteng}createredeem [ name|3 ]
+${dyganteng}addexp [ Tag Number ]
+${dyganteng}banuser [ Number ]
+${dyganteng}unbanuser [ Number ]
+${dyganteng}addbalance [ Number ]
+${dyganteng}addlimit [ Number ]
+${dyganteng}spam-pairing [ Number ]
+${dyganteng}addcase
+${dyganteng}dellcase
+${dyganteng}banchat
+${dyganteng}unbanchat
+${dyganteng}listprem 
+${dyganteng}getcase
+${dyganteng}sendcase
+${dyganteng}self
+${dyganteng}setreply
+${dyganteng}runtime
+${dyganteng}cls [ Reply Sticker ]
+${dyganteng}del [ Reply ]
+${dyganteng}public
+${dyganteng}backup
+${dyganteng}delsesi
+${dyganteng}backupdb
+${dyganteng}setppbot [ Send Image ]
+${dyganteng}setbotname
+${dyganteng}kirimmediachn [kirimedia to channel]
+${dyganteng}kirimpesanch [kirimpesan to channel]
+${dyganteng}cekidchannel [gunakan commanad ini di ch]
+${dyganteng}deposit [amount]
+${dyganteng}cektrx
+${dyganteng}autoread on/off
+${dyganteng}autotyping on/off
+${dyganteng}autobio on/off
+${dyganteng}spam-ngl
 
 *Main Menu*
-${woidy}redeem 
-${woidy}totalfitur 
-${woidy}me
-${woidy}claim
-${woidy}bulanan
-${woidy}ping
-${woidy}saldo
-${woidy}owner [ Developer]
-${woidy}transfer
-${woidy}saving
-${woidy}report [ Kalo Fitur Eror ]
+${dyganteng}redeem 
+${dyganteng}totalfitur 
+${dyganteng}me
+${dyganteng}claim
+${dyganteng}bulanan
+${dyganteng}ping
+${dyganteng}saldo
+${dyganteng}owner [ Developer]
+${dyganteng}transfer
+${dyganteng}saving
+${dyganteng}report [ Kalo Fitur Eror ]
 
 *Download Menu*
-${woidy}spotifydl [ Link ]
-${woidy}soundclouddl [ Link ]
-${woidy}audio [ Reply ]
-${woidy}video [ Reply ]
-${woidy}mediafire [ Link ]
-${woidy}tiktok [ Link ]
-${woidy}autodl 
-${woidy}ytmp4 [ Link ]
-${woidy}ytmp3 [ Link ]
-${woidy}downloadapp [ Link ]
+${dyganteng}spotifydl [ Link ]
+${dyganteng}soundclouddl [ Link ]
+${dyganteng}audio [ Reply ]
+${dyganteng}video [ Reply ]
+${dyganteng}mediafire [ Link ]
+${dyganteng}tiktok [ Link ]
+${dyganteng}autodl 
+${dyganteng}ytmp4 [ Link ]
+${dyganteng}ytmp3 [ Link ]
+${dyganteng}downloadapp [ Link ]
 
 *Tools Menu*
-${woidy}removebg
-${woidy}translate
-${woidy}gitclone
-${woidy}tts
-${woidy}ceknik [nik]
-${woidy}enc
-${woidy}sendemail
-${woidy}getpp [ Reply ]
-${woidy}rvo
-${woidy}ocr [ Reply Image ]
-${woidy}hentaivid [random vidio]
-${woidy}installpanel
-${woidy}shortlink
+${dyganteng}removebg
+${dyganteng}translate
+${dyganteng}gitclone
+${dyganteng}tts
+${dyganteng}ceknik [nik]
+${dyganteng}enc
+${dyganteng}sendemail
+${dyganteng}getpp [ Reply ]
+${dyganteng}rvo
+${dyganteng}ocr [ Reply Image ]
+${dyganteng}hentaivid [random vidio]
+${dyganteng}installpanel
+${dyganteng}shortlink
 
 
 *Convert Menu*
-${woidy}smeme [ Text ]
-${woidy}sticker [ Reply Image ]
-${woidy}qc [ Text ]
-${woidy}brat [ Text ]
-${woidy}toimg [ Reply Sticker ]
-${woidy}tovn [ Reply video ]
-${woidy}tourl [ Reply Image ]
-${woidy}searchaubdo
-${woidy}remini [ Reply Image ]
-${woidy}hd [ Image ]
-${woidy}tovid [ Reply Sticker ]
-${woidy}upvidey [ Reply Video ]
-${woidy}stext [ Question ]
+${dyganteng}smeme [ Text ]
+${dyganteng}sticker [ Reply Image ]
+${dyganteng}qc [ Text ]
+${dyganteng}brat [ Text ]
+${dyganteng}toimg [ Reply Sticker ]
+${dyganteng}tovn [ Reply video ]
+${dyganteng}tourl [ Reply Image ]
+${dyganteng}searchaubdo
+${dyganteng}remini [ Reply Image ]
+${dyganteng}hd [ Image ]
+${dyganteng}tovid [ Reply Sticker ]
+${dyganteng}upvidey [ Reply Video ]
+${dyganteng}stext [ Question ]
 
 *Search Menu*
-${woidy}play2 [ Question ]
-${woidy}play [ query ]
-${woidy}splay [ query ]
-${woidy}soundcloud [ query ]
-${woidy}searchimage [ Question ]
-${woidy}tiktoks [ Question ]
-${woidy}spotifysearch [ Judul ]
-${woidy}soundcloudsearch [ Judul ]
-${woidy}pin [ Question ]
-${woidy}bukalapak [ Question ]
-${woidy}pixiv [ Question ]
-${woidy}searchapp [ Question ]
+${dyganteng}play2 [ Question ]
+${dyganteng}play [ query ]
+${dyganteng}splay [ query ]
+${dyganteng}soundcloud [ query ]
+${dyganteng}searchimage [ Question ]
+${dyganteng}tiktoks [ Question ]
+${dyganteng}spotifysearch [ Judul ]
+${dyganteng}soundcloudsearch [ Judul ]
+${dyganteng}pin [ Question ]
+${dyganteng}bukalapak [ Question ]
+${dyganteng}pixiv [ Question ]
+${dyganteng}searchapp [ Question ]
 
 
 *Group Menu*
-${woidy}acc
-${woidy}kick [ Tag Target ]
-${woidy}opentime [ Time ]
-${woidy}closetime [ Time ]
-${woidy}promote [ Tag ]
-${woidy}demote [ Tag ]
-${woidy}antilinkv1 [ enable/disable ]
-${woidy}antipromosi [ enable/disable ]
-${woidy}welcome [ on/off ]
-${woidy}cekasalmember
-${woidy}setppgc
-${woidy}hidetag [ Pesan ]
-${woidy}creategc [ Name ]
-${woidy}setnamagc [ Name ]
-${woidy}linkgc
+${dyganteng}acc
+${dyganteng}kick [ Tag Target ]
+${dyganteng}opentime [ Time ]
+${dyganteng}closetime [ Time ]
+${dyganteng}promote [ Tag ]
+${dyganteng}demote [ Tag ]
+${dyganteng}antilinkv1 [ enable/disable ]
+${dyganteng}antipromosi [ enable/disable ]
+${dyganteng}welcome [ on/off ]
+${dyganteng}cekasalmember
+${dyganteng}setppgc
+${dyganteng}hidetag [ Pesan ]
+${dyganteng}creategc [ Name ]
+${dyganteng}setnamagc [ Name ]
+${dyganteng}linkgc
 
 *Game Menu*
-${woidy}casino
-${woidy}family100
-${woidy}caklontong
-${woidy}tebakgambar
-${woidy}tebakbendera
-${woidy}coin
-${woidy}slot
-${woidy}tictactoe
-${woidy}delttt
-${woidy}suit
+${dyganteng}casino
+${dyganteng}family100
+${dyganteng}caklontong
+${dyganteng}tebakgambar
+${dyganteng}tebakbendera
+${dyganteng}coin
+${dyganteng}slot
+${dyganteng}tictactoe
+${dyganteng}delttt
+${dyganteng}suit
 
 *Ai Menu*
-${woidy}askgpt [teks]
-${woidy}ai [teks]
-${woidy}opengpt [teks]
-${woidy}islamai [teks]
-${woidy}venice 
+${dyganteng}askgpt [teks]
+${dyganteng}ai [teks]
+${dyganteng}opengpt [teks]
+${dyganteng}islamai [teks]
+${dyganteng}venice 
 
 *Store Menu*
-${woidy}done
-${woidy}tunda
-${woidy}batal
-${woidy}buypanel1gb - Harga ${global.panel1gb}
-${woidy}buypanel2gb - Harga ${global.panel2gb}
-${woidy}buypanel3gb - Harga ${global.panel3gb}
-${woidy}buypanel4gb - Harga ${global.panel4gb}
-${woidy}buypanel5gb - Harga ${global.panel5gb}
-${woidy}buypanel6gb - Harga ${global.panel6gb}
-${woidy}buypanel7gb - Harga ${global.panel7gb}
-${woidy}buypanelunli - Harga ${global.panelunli}
-${woidy}buyadp - Harga ${global.adminpanel}
-${woidy}buyptpanel - Harga ${global.ptpanel}
-${woidy}buyownerpanel - Harga ${global.ownerpanel}
-${woidy}joinresellerpanel - Harga ${global.hargareseller}
+${dyganteng}done
+${dyganteng}tunda
+${dyganteng}batal
+${dyganteng}buypanel1gb - Harga ${global.panel1gb}
+${dyganteng}buypanel2gb - Harga ${global.panel2gb}
+${dyganteng}buypanel3gb - Harga ${global.panel3gb}
+${dyganteng}buypanel4gb - Harga ${global.panel4gb}
+${dyganteng}buypanel5gb - Harga ${global.panel5gb}
+${dyganteng}buypanel6gb - Harga ${global.panel6gb}
+${dyganteng}buypanel7gb - Harga ${global.panel7gb}
+${dyganteng}buypanelunli - Harga ${global.panelunli}
+${dyganteng}buyadp - Harga ${global.adminpanel}
+${dyganteng}buyptpanel - Harga ${global.ptpanel}
+${dyganteng}buyownerpanel - Harga ${global.ownerpanel}
+${dyganteng}joinresellerpanel - Harga ${global.hargareseller}
 
 ________,,,_______________________,,,____
 
@@ -9790,28 +9790,28 @@ ________,,,_______________________,,,____
 
 
 *Jadibot Menu*
-${woidy}jadibot
-${woidy}stopjadibot
-${woidy}listjadibot
+${dyganteng}jadibot
+${dyganteng}stopjadibot
+${dyganteng}listjadibot
 
 *Cpanel Menu*
-${woidy}1gb
-${woidy}2gb
-${woidy}3gb
-${woidy}4gb
-${woidy}5gb
-${woidy}6gb
-${woidy}7gb
-${woidy}unli
-${woidy}listsrv
-${woidy}delsrv
-${woidy}listusr
-${woidy}delusr
-${woidy}createadmin
-${woidy}listadmin
+${dyganteng}1gb
+${dyganteng}2gb
+${dyganteng}3gb
+${dyganteng}4gb
+${dyganteng}5gb
+${dyganteng}6gb
+${dyganteng}7gb
+${dyganteng}unli
+${dyganteng}listsrv
+${dyganteng}delsrv
+${dyganteng}listusr
+${dyganteng}delusr
+${dyganteng}createadmin
+${dyganteng}listadmin
 
 *Subdomain Menu*
-${woidy}subdomainv1 name|ip
+${dyganteng}subdomainv1 name|ip
 
 
 
@@ -9834,44 +9834,44 @@ ${woidy}subdomainv1 name|ip
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Owner Menu*
-${woidy}blacklist
-${woidy}unblacklist
-${woidy}delprem [ Tag Number ]
-${woidy}addprem [ Tag Number ]
-${woidy}createredeem [ name|3 ]
-${woidy}addexp [ Tag Number ]
-${woidy}banuser [ Number ]
-${woidy}unbanuser [ Number ]
-${woidy}addbalance [ Number ]
-${woidy}addlimit [ Number ]
-${woidy}spam-pairing [ Number ]
-${woidy}addcase
-${woidy}dellcase
-${woidy}banchat
-${woidy}unbanchat
-${woidy}listprem 
-${woidy}getcase
-${woidy}sendcase
-${woidy}self
-${woidy}setreply
-${woidy}runtime
-${woidy}cls [ Reply Sticker ]
-${woidy}del [ Reply ]
-${woidy}public
-${woidy}backup
-${woidy}delsesi
-${woidy}backupdb
-${woidy}setppbot [ Send Image ]
-${woidy}setbotname
-${woidy}kirimmediachn [kirimedia to channel]
-${woidy}kirimpesanch [kirimpesan to channel]
-${woidy}cekidchannel [gunakan commanad ini di ch]
-${woidy}deposit [amount]
-${woidy}cektrx
-${woidy}autoread on/off
-${woidy}autotyping on/off
-${woidy}autobio on/off
-${woidy}spam-ngl
+${dyganteng}blacklist
+${dyganteng}unblacklist
+${dyganteng}delprem [ Tag Number ]
+${dyganteng}addprem [ Tag Number ]
+${dyganteng}createredeem [ name|3 ]
+${dyganteng}addexp [ Tag Number ]
+${dyganteng}banuser [ Number ]
+${dyganteng}unbanuser [ Number ]
+${dyganteng}addbalance [ Number ]
+${dyganteng}addlimit [ Number ]
+${dyganteng}spam-pairing [ Number ]
+${dyganteng}addcase
+${dyganteng}dellcase
+${dyganteng}banchat
+${dyganteng}unbanchat
+${dyganteng}listprem 
+${dyganteng}getcase
+${dyganteng}sendcase
+${dyganteng}self
+${dyganteng}setreply
+${dyganteng}runtime
+${dyganteng}cls [ Reply Sticker ]
+${dyganteng}del [ Reply ]
+${dyganteng}public
+${dyganteng}backup
+${dyganteng}delsesi
+${dyganteng}backupdb
+${dyganteng}setppbot [ Send Image ]
+${dyganteng}setbotname
+${dyganteng}kirimmediachn [kirimedia to channel]
+${dyganteng}kirimpesanch [kirimpesan to channel]
+${dyganteng}cekidchannel [gunakan commanad ini di ch]
+${dyganteng}deposit [amount]
+${dyganteng}cektrx
+${dyganteng}autoread on/off
+${dyganteng}autotyping on/off
+${dyganteng}autobio on/off
+${dyganteng}spam-ngl
 
 
 
@@ -9892,17 +9892,17 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Main Menu*
-${woidy}redeem 
-${woidy}totalfitur
-${woidy}me
-${woidy}claim
-${woidy}bulanan
-${woidy}ping
-${woidy}saldo
-${woidy}owner [ Developer]
-${woidy}transfer
-${woidy}saving
-${woidy}report [ Kalo Fitur Eror ]
+${dyganteng}redeem 
+${dyganteng}totalfitur
+${dyganteng}me
+${dyganteng}claim
+${dyganteng}bulanan
+${dyganteng}ping
+${dyganteng}saldo
+${dyganteng}owner [ Developer]
+${dyganteng}transfer
+${dyganteng}saving
+${dyganteng}report [ Kalo Fitur Eror ]
 `)
 } if (args[0] === "download") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
@@ -9920,15 +9920,15 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Download Menu*
-${woidy}spotifydl [ Link ]
-${woidy}soundclouddl [ Link ]
-${woidy}audio [ Reply ]
-${woidy}video [ Reply ]
-${woidy}mediafire [ Link ]
-${woidy}tiktok [ Link ]
-${woidy}ytmp4 [ Link ]
-${woidy}ytmp3 [ Link ]
-${woidy}downloadapp [ Link ]
+${dyganteng}spotifydl [ Link ]
+${dyganteng}soundclouddl [ Link ]
+${dyganteng}audio [ Reply ]
+${dyganteng}video [ Reply ]
+${dyganteng}mediafire [ Link ]
+${dyganteng}tiktok [ Link ]
+${dyganteng}ytmp4 [ Link ]
+${dyganteng}ytmp3 [ Link ]
+${dyganteng}downloadapp [ Link ]
 
 
 `)
@@ -9948,19 +9948,19 @@ ${woidy}downloadapp [ Link ]
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Convert Menu*
-${woidy}smeme [ Text ]
-${woidy}sticker [ Reply Image ]
-${woidy}qc [ Text ]
-${woidy}brat [text]
-${woidy}toimg [ Reply Sticker ]
-${woidy}tovn [ Reply video ]
-${woidy}tourl [ Reply Image ]
-${woidy}searchaubdo
-${woidy}remini [ Reply Image ]
-${woidy}hd [ Image ]
-${woidy}tovid [ Reply Sticker ]
-${woidy}upvidey [ Reply Video ]
-${woidy}stext [ Question ]
+${dyganteng}smeme [ Text ]
+${dyganteng}sticker [ Reply Image ]
+${dyganteng}qc [ Text ]
+${dyganteng}brat [text]
+${dyganteng}toimg [ Reply Sticker ]
+${dyganteng}tovn [ Reply video ]
+${dyganteng}tourl [ Reply Image ]
+${dyganteng}searchaubdo
+${dyganteng}remini [ Reply Image ]
+${dyganteng}hd [ Image ]
+${dyganteng}tovid [ Reply Sticker ]
+${dyganteng}upvidey [ Reply Video ]
+${dyganteng}stext [ Question ]
 `)
 } if (args[0] === "search") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
@@ -9978,18 +9978,18 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Search Menu*
-${woidy}play2 [ Question ]
-${woidy}play [ query ]
-${woidy}splay [ Question ]
-${woidy}soundcloud [ Question ]
-${woidy}gimage [ Question ]
-${woidy}tiktoks [ Question ]
-${woidy}spotifysearch [ Judul ]
-${woidy}soundcloudsearch [ Judul ]
-${woidy}pin [ Question ]
-${woidy}bukalapak [ Question ]
-${woidy}pixiv [ Question ]
-${woidy}searchapp [ Question ]
+${dyganteng}play2 [ Question ]
+${dyganteng}play [ query ]
+${dyganteng}splay [ Question ]
+${dyganteng}soundcloud [ Question ]
+${dyganteng}gimage [ Question ]
+${dyganteng}tiktoks [ Question ]
+${dyganteng}spotifysearch [ Judul ]
+${dyganteng}soundcloudsearch [ Judul ]
+${dyganteng}pin [ Question ]
+${dyganteng}bukalapak [ Question ]
+${dyganteng}pixiv [ Question ]
+${dyganteng}searchapp [ Question ]
 
 
 `)
@@ -10009,21 +10009,21 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Group Menu*
-${woidy}acc
-${woidy}kick [ Tag Target ]
-${woidy}opentime [ Time ]
-${woidy}closetime [ Time ]
-${woidy}promote [ Tag ]
-${woidy}demote [ Tag ]
-${woidy}antilinkv1 [ enable/disable ]
-${woidy}welcome [ on/off ]
-${woidy}cekasalmember
-${woidy}setppgc
-${woidy}antipromosi enable/disable
-${woidy}hidetag [ Pesan ]
-${woidy}creategc [ Name ]
-${woidy}setnamagc [ Name ]
-${woidy}linkgc
+${dyganteng}acc
+${dyganteng}kick [ Tag Target ]
+${dyganteng}opentime [ Time ]
+${dyganteng}closetime [ Time ]
+${dyganteng}promote [ Tag ]
+${dyganteng}demote [ Tag ]
+${dyganteng}antilinkv1 [ enable/disable ]
+${dyganteng}welcome [ on/off ]
+${dyganteng}cekasalmember
+${dyganteng}setppgc
+${dyganteng}antipromosi enable/disable
+${dyganteng}hidetag [ Pesan ]
+${dyganteng}creategc [ Name ]
+${dyganteng}setnamagc [ Name ]
+${dyganteng}linkgc
 `)
 } if (args[0] === "game") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
@@ -10041,16 +10041,16 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Game Menu*
-${woidy}casino
-${woidy}family100
-${woidy}caklontong
-${woidy}tebakgambar
-${woidy}tebakbendera
-${woidy}coin
-${woidy}slot
-${woidy}tictactoe
-${woidy}delttt
-${woidy}suit
+${dyganteng}casino
+${dyganteng}family100
+${dyganteng}caklontong
+${dyganteng}tebakgambar
+${dyganteng}tebakbendera
+${dyganteng}coin
+${dyganteng}slot
+${dyganteng}tictactoe
+${dyganteng}delttt
+${dyganteng}suit
 `)
 } if (args[0] === "ai") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
@@ -10068,11 +10068,11 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *menu ai*
-${woidy}askgpt [text]
-${woidy}ai [text]
-${woidy}opengpt [text]
-${woidy}islamai [text]
-${woidy}venice
+${dyganteng}askgpt [text]
+${dyganteng}ai [text]
+${dyganteng}opengpt [text]
+${dyganteng}islamai [text]
+${dyganteng}venice
 
 `)
 } if (args[0] === "store") {
@@ -10091,21 +10091,21 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Store Menu*
-${woidy}done
-${woidy}tunda
-${woidy}batal
-${woidy}buypanel1gb - Harga ${global.panel1gb}
-${woidy}buypanel2gb - Harga ${global.panel2gb}
-${woidy}buypanel3gb - Harga ${global.panel3gb}
-${woidy}buypanel4gb - Harga ${global.panel4gb}
-${woidy}buypanel5gb - Harga ${global.panel5gb}
-${woidy}buypanel6gb - Harga ${global.panel6gb}
-${woidy}buypanel7gb - Harga ${global.panel7gb}
-${woidy}buypanelunli - Harga ${global.panelunli}
-${woidy}buyadp - Harga ${global.adminpanel}
-${woidy}buyptpanel - Harga ${global.ptpanel}
-${woidy}buyownerpanel - Harga ${global.ownerpanel}
-${woidy}joinresellerpanel - Harga ${global.hargareseller}
+${dyganteng}done
+${dyganteng}tunda
+${dyganteng}batal
+${dyganteng}buypanel1gb - Harga ${global.panel1gb}
+${dyganteng}buypanel2gb - Harga ${global.panel2gb}
+${dyganteng}buypanel3gb - Harga ${global.panel3gb}
+${dyganteng}buypanel4gb - Harga ${global.panel4gb}
+${dyganteng}buypanel5gb - Harga ${global.panel5gb}
+${dyganteng}buypanel6gb - Harga ${global.panel6gb}
+${dyganteng}buypanel7gb - Harga ${global.panel7gb}
+${dyganteng}buypanelunli - Harga ${global.panelunli}
+${dyganteng}buyadp - Harga ${global.adminpanel}
+${dyganteng}buyptpanel - Harga ${global.ptpanel}
+${dyganteng}buyownerpanel - Harga ${global.ownerpanel}
+${dyganteng}joinresellerpanel - Harga ${global.hargareseller}
 
 ________,,,_______________________,,,___
 
@@ -10131,19 +10131,19 @@ ________,,,_______________________,,,___
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Tools Menu*
-${woidy}removebg
-${woidy}translate
-${woidy}gitclone
-${woidy}tts
-${woidy}ceknik [nik]
-${woidy}enc
-${woidy}sendemail
-${woidy}getpp [ Reply ]
-${woidy}rvo
-${woidy}ocr [ Reply Image ]
-${woidy}hentaivid [random vidio]
-${woidy}installpanel
-${woidy}shortlink
+${dyganteng}removebg
+${dyganteng}translate
+${dyganteng}gitclone
+${dyganteng}tts
+${dyganteng}ceknik [nik]
+${dyganteng}enc
+${dyganteng}sendemail
+${dyganteng}getpp [ Reply ]
+${dyganteng}rvo
+${dyganteng}ocr [ Reply Image ]
+${dyganteng}hentaivid [random vidio]
+${dyganteng}installpanel
+${dyganteng}shortlink
 
 `)
 } if (args[0] === "jadibot") {
@@ -10162,9 +10162,9 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Jadibot Menu*
-${woidy}jadibot
-${woidy}stopjadibot
-${woidy}listjadibot
+${dyganteng}jadibot
+${dyganteng}stopjadibot
+${dyganteng}listjadibot
 `)
 } if (args[0] === "cpanel") {
 return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed by dycoders.xyz. If you need help, I can help you.
@@ -10182,20 +10182,20 @@ return replymenu(`Hi, I am a dy_net who is ready to serve you. I was developed b
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Cpanel Menu*
-${woidy}1gb
-${woidy}2gb
-${woidy}3gb
-${woidy}4gb
-${woidy}5gb
-${woidy}6gb
-${woidy}7gb
-${woidy}unli
-${woidy}listsrv
-${woidy}delsrv
-${woidy}listusr
-${woidy}delusr
-${woidy}createadmin
-${woidy}listadmin
+${dyganteng}1gb
+${dyganteng}2gb
+${dyganteng}3gb
+${dyganteng}4gb
+${dyganteng}5gb
+${dyganteng}6gb
+${dyganteng}7gb
+${dyganteng}unli
+${dyganteng}listsrv
+${dyganteng}delsrv
+${dyganteng}listusr
+${dyganteng}delusr
+${dyganteng}createadmin
+${dyganteng}listadmin
 
 `)}
  if (args[0] === "subdomain") {
@@ -10214,7 +10214,7 @@ ${woidy}listadmin
 ▢ Number: ${m?.sender.split('@')[0]}
 
 *Subdomain Menu*
-${woidy}subdomainv1 name|ip
+${dyganteng}subdomainv1 name|ip
 
 `)}}
 break
