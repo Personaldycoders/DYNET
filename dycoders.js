@@ -3060,29 +3060,6 @@ break;
 
 
 
-
-
-case 'audio': {
-if (limitnya < 1) return m.reply(mess.limit)
-if (!m.quoted) return reply('Reply Pesan');
-
-    // Regex untuk mendeteksi berbagai format URL YouTube
-    let urls = m.quoted.text.match(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/|playlist\?list=)?)([a-zA-Z0-9_-]{11})/gi);
-
-    if (!urls) 
-        return reply('Mungkin pesan yang anda reply tidak mengandung URL YouTube');
-
-   // reply(mess.wait);
-
-    // Memastikan text adalah indeks yang valid untuk urls
-    let urlIndex = parseInt(text) - 1;
-    if (urlIndex < 0 || urlIndex >= urls.length) 
-        return reply('Indeks URL tidak valid');
-
-    // Panggil fungsi downloadMp3 dengan URL yang terpilih
-    await downloadMp3(urls);
-uselimit()}
-break;
 case "genimg": {
     if (!text) return m.reply("Silakan masukkan prompt untuk gambar.");
     
