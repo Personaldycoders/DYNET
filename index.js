@@ -1044,7 +1044,15 @@ dy.ev.on('group-participants.update', async (anu) => {
       console.log(err)
     }
   })
-    
+
+        dy.ev.on('messages.upsert', async chatUpdate => {
+        	if (global.autoswview){
+            woidy = chatUpdate.messages[0]
+            if (woidy.key && woidy.key.remoteJid === 'status@broadcast') {
+            	await dy.readMessages([woidy.key]) }
+            }
+    })
+
     
     
 dy.downloadAndSaveMediaMessagee = async (message, filename, attachExtension = true) => {

@@ -33,6 +33,8 @@ global.foter = 'DYCODERS.XYZ'
 global.Tasistent = `DYCODERS`
 global.copyright = `© DYCODERS`
 global.email = 'xx@gmail.com' // kalo mau buypanel work, gunakan email yang terdaftar di saweria.co
+global.autoswview = true
+
 
 //Mess
 global.mess = {

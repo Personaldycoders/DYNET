@@ -11,8 +11,25 @@ THANKS TO :
 - 🔥 AxellNetwork
 - 🔥 Selxyzz
 - 🔥 Asta store
+- 🔥 DANZUKO 
 
 ## Fiture
  - MD
  - CPANEL
  - STORE
+ 
+## Install Script
+```bash
+git clone https://github.com/Personaldycoders/DYNET
+cd DYNET
+npm install
+```
+
+## Start Bot
+```bash
+npm start
+or
+node index.js
+```
+
+ 

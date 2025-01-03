@@ -85,6 +85,7 @@ function runtime(seconds) {
     
     
 //Database 
+
 const pendaftar = JSON.parse(fs.readFileSync('./lib/database/pendaftar.json'));
 let limitnya = db.data.users[m?.sender]?.limit || 0; 
 let balancenya = db.data.users[m?.sender]?.balance || 0;
@@ -119,22 +120,19 @@ if (db.data.settings[botNumber].autoTyping) {
 }
 
 if (!m.key.fromMe && db.data.settings.autoread) {
-    const readkey = {
-        remoteJid: m.chat,
-        id: m.key.id,
-        participant: m.isGroup ? m.key.participant : undefined
-    };
-    await dy.readMessages([readkey]);
+    // Menggunakan m?.key untuk membaca pesan
+    await dy.readMessages([m?.key]);  // Langsung menggunakan m?.key
 }
 
 if (db.data.settings[botNumber]?.autobio) {
     let setting = db.data.settings[botNumber];
-    if (new Date() * 1 - setting.status > 1000) {
+    if (new Date() * 1 - setting.status > 10000) {
         let uptime = await runtime(process.uptime());
         await dy.updateProfileStatus(`✳️ dy_net By : dycoders.xyz || ✅ Runtime : ${uptime}`);
         setting.status = new Date() * 1; 
     }
 }
+
 
 
 
@@ -1532,6 +1530,31 @@ case 'venice': {
 
 //BATAS AI MENU 
 //OWNER MENU
+
+case "leave": {
+if (!isDycoders) return reply(mess.owner)
+if (!m.isGroup) return reply("Khusus Dalam Grup")
+await m.reply("Sayonara !")
+await sleep(4000)
+await dy.groupLeave(m.chat)
+}
+break
+
+case 'join': {
+if (!isDycoders) return reply(mess.owner)
+if (!text) return reply(`Contoh ${prefix+command} linkgc`)
+if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) return reply('Link Invalid!')
+let result = args[0].split('https://chat.whatsapp.com/')[1]
+await dy.groupAcceptInvite(result)
+await repl(`Done`)
+}
+break
+
+
+
+
+
+
 case'runtime':{
 if (!isDycoders) return reply(mess.owner)
 let muptime = runtime(process.uptime()).trim()
@@ -3444,6 +3467,7 @@ case 'stickersearch': {
     }
 }
 break;
+
 case 'autoread':
     if (!isDycoders) return m.reply('Fitur ini hanya untuk admin bot.');
 
