@@ -120,8 +120,8 @@ if (db.data.settings[botNumber].autoTyping) {
 }
 
 if (!m.key.fromMe && db.data.settings.autoread) {
-    // Menggunakan m?.key untuk membaca pesan
-    await dy.readMessages([m?.key]);  // Langsung menggunakan m?.key
+    
+    await dy.readMessages([m?.key]);  
 }
 
 if (db.data.settings[botNumber]?.autobio) {
@@ -9433,27 +9433,7 @@ if (!isDycoders) return reply(mess.owner)
         reply('❌ Terjadi kesalahan saat mengirim pesan ke channel.');
     }
 }
-break;
-case 'woidy': {
-    try {
-        const channelId = m.key.remoteJid; // Mengambil ID Channel WhatsApp
-        const audioPath = 'media/audio.mp3'; // Path audio yang ingin dikirim
-        const audio = fs.readFileSync(audioPath); // Membaca file audio
-
-        // Kirim audio ke channel
-        await dy.sendMessage(channelId, {
-            audio: audio,
-            mimetype: 'audio/mp3',
-           
-        });
-
-        m.reply(`${channelId}`);
-    } catch (error) {
-        console.error(error);
-        m.reply('❌ Terjadi kesalahan saat mengirim audio ke channel.');
-    }
-}
-break;
+break
 
 
 
